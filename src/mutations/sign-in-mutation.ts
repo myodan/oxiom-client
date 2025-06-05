@@ -1,14 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
 import { fetcher } from "~/lib/fetcher";
 import { currentUserQueryOptions } from "~/queries/current-user-query";
+import { Route } from "~/routes/(unauthorized)/sign-in";
 import type { SignInForm } from "~/schemas/forms/sign-in";
 import type { Token } from "~/schemas/token";
 import { useTokenStore } from "~/stores/token-store";
 
 export function useSignIn() {
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
+	const navigate = Route.useNavigate();
+	const { redirect } = Route.useSearch();
+	const { queryClient } = Route.useRouteContext();
 	const { setAccessToken } = useTokenStore();
 
 	return useMutation({
@@ -20,8 +21,10 @@ export function useSignIn() {
 			});
 			const { accessToken } = await response.json();
 			setAccessToken(accessToken);
-			queryClient.invalidateQueries({queryKey: currentUserQueryOptions().queryKey});
-			navigate({ to: "/" });
+			queryClient.invalidateQueries({
+				queryKey: currentUserQueryOptions().queryKey,
+			});
+			navigate({ to: redirect || "/" });
 		},
 	});
 }

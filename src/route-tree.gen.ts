@@ -13,10 +13,12 @@
 import { Route as rootRoute } from "./routes/__root";
 import { Route as unauthorizedRouteImport } from "./routes/(unauthorized)/route";
 import { Route as defaultRouteImport } from "./routes/(default)/route";
+import { Route as authorizedRouteImport } from "./routes/(authorized)/route";
 import { Route as defaultIndexImport } from "./routes/(default)/index";
 import { Route as unauthorizedSignUpImport } from "./routes/(unauthorized)/sign-up";
 import { Route as unauthorizedSignInImport } from "./routes/(unauthorized)/sign-in";
 import { Route as defaultProductsIndexImport } from "./routes/(default)/products/index";
+import { Route as authorizedChatroomsIndexImport } from "./routes/(authorized)/chatrooms/index";
 import { Route as defaultProductsIdImport } from "./routes/(default)/products/$id";
 
 // Create/Update Routes
@@ -28,6 +30,11 @@ const unauthorizedRouteRoute = unauthorizedRouteImport.update({
 
 const defaultRouteRoute = defaultRouteImport.update({
   id: "/(default)",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const authorizedRouteRoute = authorizedRouteImport.update({
+  id: "/(authorized)",
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -55,6 +62,12 @@ const defaultProductsIndexRoute = defaultProductsIndexImport.update({
   getParentRoute: () => defaultRouteRoute,
 } as any);
 
+const authorizedChatroomsIndexRoute = authorizedChatroomsIndexImport.update({
+  id: "/chatrooms/",
+  path: "/chatrooms/",
+  getParentRoute: () => authorizedRouteRoute,
+} as any);
+
 const defaultProductsIdRoute = defaultProductsIdImport.update({
   id: "/products/$id",
   path: "/products/$id",
@@ -65,6 +78,13 @@ const defaultProductsIdRoute = defaultProductsIdImport.update({
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+    "/(authorized)": {
+      id: "/(authorized)";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof authorizedRouteImport;
+      parentRoute: typeof rootRoute;
+    };
     "/(default)": {
       id: "/(default)";
       path: "/";
@@ -107,6 +127,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof defaultProductsIdImport;
       parentRoute: typeof defaultRouteImport;
     };
+    "/(authorized)/chatrooms/": {
+      id: "/(authorized)/chatrooms/";
+      path: "/chatrooms";
+      fullPath: "/chatrooms";
+      preLoaderRoute: typeof authorizedChatroomsIndexImport;
+      parentRoute: typeof authorizedRouteImport;
+    };
     "/(default)/products/": {
       id: "/(default)/products/";
       path: "/products";
@@ -118,6 +145,18 @@ declare module "@tanstack/react-router" {
 }
 
 // Create and export the route tree
+
+interface authorizedRouteRouteChildren {
+  authorizedChatroomsIndexRoute: typeof authorizedChatroomsIndexRoute;
+}
+
+const authorizedRouteRouteChildren: authorizedRouteRouteChildren = {
+  authorizedChatroomsIndexRoute: authorizedChatroomsIndexRoute,
+};
+
+const authorizedRouteRouteWithChildren = authorizedRouteRoute._addFileChildren(
+  authorizedRouteRouteChildren,
+);
 
 interface defaultRouteRouteChildren {
   defaultIndexRoute: typeof defaultIndexRoute;
@@ -153,6 +192,7 @@ export interface FileRoutesByFullPath {
   "/sign-in": typeof unauthorizedSignInRoute;
   "/sign-up": typeof unauthorizedSignUpRoute;
   "/products/$id": typeof defaultProductsIdRoute;
+  "/chatrooms": typeof authorizedChatroomsIndexRoute;
   "/products": typeof defaultProductsIndexRoute;
 }
 
@@ -161,43 +201,62 @@ export interface FileRoutesByTo {
   "/sign-in": typeof unauthorizedSignInRoute;
   "/sign-up": typeof unauthorizedSignUpRoute;
   "/products/$id": typeof defaultProductsIdRoute;
+  "/chatrooms": typeof authorizedChatroomsIndexRoute;
   "/products": typeof defaultProductsIndexRoute;
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
+  "/(authorized)": typeof authorizedRouteRouteWithChildren;
   "/(default)": typeof defaultRouteRouteWithChildren;
   "/(unauthorized)": typeof unauthorizedRouteRouteWithChildren;
   "/(unauthorized)/sign-in": typeof unauthorizedSignInRoute;
   "/(unauthorized)/sign-up": typeof unauthorizedSignUpRoute;
   "/(default)/": typeof defaultIndexRoute;
   "/(default)/products/$id": typeof defaultProductsIdRoute;
+  "/(authorized)/chatrooms/": typeof authorizedChatroomsIndexRoute;
   "/(default)/products/": typeof defaultProductsIndexRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: "/" | "/sign-in" | "/sign-up" | "/products/$id" | "/products";
+  fullPaths:
+    | "/"
+    | "/sign-in"
+    | "/sign-up"
+    | "/products/$id"
+    | "/chatrooms"
+    | "/products";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "/sign-in" | "/sign-up" | "/products/$id" | "/products";
+  to:
+    | "/"
+    | "/sign-in"
+    | "/sign-up"
+    | "/products/$id"
+    | "/chatrooms"
+    | "/products";
   id:
     | "__root__"
+    | "/(authorized)"
     | "/(default)"
     | "/(unauthorized)"
     | "/(unauthorized)/sign-in"
     | "/(unauthorized)/sign-up"
     | "/(default)/"
     | "/(default)/products/$id"
+    | "/(authorized)/chatrooms/"
     | "/(default)/products/";
   fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
+  authorizedRouteRoute: typeof authorizedRouteRouteWithChildren;
   defaultRouteRoute: typeof defaultRouteRouteWithChildren;
   unauthorizedRouteRoute: typeof unauthorizedRouteRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  authorizedRouteRoute: authorizedRouteRouteWithChildren,
   defaultRouteRoute: defaultRouteRouteWithChildren,
   unauthorizedRouteRoute: unauthorizedRouteRouteWithChildren,
 };
@@ -212,8 +271,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/(authorized)",
         "/(default)",
         "/(unauthorized)"
+      ]
+    },
+    "/(authorized)": {
+      "filePath": "(authorized)/route.tsx",
+      "children": [
+        "/(authorized)/chatrooms/"
       ]
     },
     "/(default)": {
@@ -246,6 +312,10 @@ export const routeTree = rootRoute
     "/(default)/products/$id": {
       "filePath": "(default)/products/$id.tsx",
       "parent": "/(default)"
+    },
+    "/(authorized)/chatrooms/": {
+      "filePath": "(authorized)/chatrooms/index.tsx",
+      "parent": "/(authorized)"
     },
     "/(default)/products/": {
       "filePath": "(default)/products/index.tsx",
