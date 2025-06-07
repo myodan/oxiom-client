@@ -13,35 +13,35 @@ import { routeTree } from "~/route-tree.gen";
 const queryClient = new QueryClient();
 
 const router = createRouter({
-  routeTree,
-  context: { queryClient },
-  defaultPreload: "intent",
-  defaultStructuralSharing: true,
-  defaultPreloadStaleTime: 0,
+	routeTree,
+	context: { queryClient },
+	defaultPreload: "intent",
+	defaultStructuralSharing: true,
+	defaultPreloadStaleTime: 0,
 });
 
 router.subscribe("onBeforeLoad", ({ fromLocation, hrefChanged }) => {
-  fromLocation && hrefChanged && nProgress.start();
+	fromLocation && hrefChanged && nProgress.start();
 });
 
 router.subscribe("onLoad", () => {
-  nProgress.done();
+	nProgress.done();
 });
 
 declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
+	interface Register {
+		router: typeof router;
+	}
 }
 
 const rootElement = document.getElementById("root");
 if (rootElement && !rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </StrictMode>
-  );
+	const root = ReactDOM.createRoot(rootElement);
+	root.render(
+		<StrictMode>
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider router={router} />
+			</QueryClientProvider>
+		</StrictMode>,
+	);
 }

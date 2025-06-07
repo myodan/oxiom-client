@@ -12,6 +12,7 @@ export function productsInfiniteQueryOptions(
 		queryFn: async ({ pageParam }) => {
 			const response = await fetcher("products", {
 				searchParams: {
+					size: 30,
 					page: pageParam,
 					sort: "id,desc",
 					...(categoryId && { categoryId }),

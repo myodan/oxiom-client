@@ -1,3 +1,5 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { LogOutIcon, UserCog2Icon, UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
@@ -8,10 +10,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { useCurrentUser } from "~/queries/current-user-query";
+import { currentUserQueryOptions } from "~/queries/current-user-query";
 
 export function UserMenu() {
-	const { data: currentUser } = useCurrentUser();
+	const navigate = useNavigate();
+	const { data: currentUser } = useSuspenseQuery(currentUserQueryOptions());
 
 	if (!currentUser) {
 		throw new Error("사용자 정보가 없습니다. 로그인 상태를 확인하세요.");
@@ -19,10 +22,10 @@ export function UserMenu() {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className="rounded-full">
+			<DropdownMenuTrigger className="rounded-full border">
 				<Avatar className="cursor-pointer">
 					<AvatarImage
-						src={currentUser?.avatarUrl ?? undefined}
+						src={currentUser.avatarUrl ?? undefined}
 						alt="사용자 프로필 이미지"
 					/>
 					<AvatarFallback>
@@ -40,7 +43,7 @@ export function UserMenu() {
 					</span>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
+				<DropdownMenuItem onClick={() => navigate({ to: "/my" })}>
 					<UserCog2Icon /> 내 정보
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />

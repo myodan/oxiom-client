@@ -1,5 +1,6 @@
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
 import { Button } from "~/components/ui/button";
@@ -60,7 +61,7 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>사용자 이름</FormLabel>
 									<FormControl>
-										<Input type="text" placeholder="example" {...field} />
+										<Input type="text" placeholder="username" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -73,23 +74,25 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>암호</FormLabel>
 									<FormControl>
-										<Input type="password" placeholder="*****" {...field} />
+										<Input type="password" placeholder="password" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
 							)}
 						/>
 						<div className="flex flex-col gap-4">
-							<Button type="submit" loading={isPending}>
-								로그인
-							</Button>
+							<Button type="submit">로그인</Button>
 							<div className="text-center text-sm">
 								아직 계정이 없으신가요?{" "}
 								<Link
 									to="/sign-up"
 									className="text-primary underline-offset-4 hover:underline "
 								>
-									회원가입
+									{isPending ? (
+										<Loader2Icon className="animate-spin" />
+									) : (
+										"회원가입"
+									)}
 								</Link>
 							</div>
 						</div>

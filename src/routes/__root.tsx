@@ -7,27 +7,27 @@ import { useThemeSync } from "~/hooks/use-theme-effect";
 import { currentUserQueryOptions } from "~/queries/current-user-query";
 
 type RootRouteContext = {
-  queryClient: QueryClient;
+	queryClient: QueryClient;
 };
 
 export const Route = createRootRouteWithContext<RootRouteContext>()({
-  loader: ({ context: { queryClient } }) => {
-    queryClient.ensureQueryData(currentUserQueryOptions());
-  },
-  component: RouteComponent,
+	loader: ({ context: { queryClient } }) => {
+		queryClient.ensureQueryData(currentUserQueryOptions());
+	},
+	component: RouteComponent,
 });
 
 function RouteComponent() {
-  useThemeSync();
+	useThemeSync();
 
-  return (
-    <>
-      <main className="flex min-h-lvh flex-col">
-        <Outlet />
-      </main>
-      <Toaster />
-      <TanStackRouterDevtools />
-      <ReactQueryDevtools />
-    </>
-  );
+	return (
+		<>
+			<main className="flex min-h-lvh flex-col">
+				<Outlet />
+			</main>
+			<Toaster />
+			<TanStackRouterDevtools />
+			<ReactQueryDevtools />
+		</>
+	);
 }

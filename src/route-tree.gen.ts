@@ -8,6 +8,8 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from "@tanstack/react-router";
+
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root";
@@ -17,9 +19,16 @@ import { Route as authorizedRouteImport } from "./routes/(authorized)/route";
 import { Route as defaultIndexImport } from "./routes/(default)/index";
 import { Route as unauthorizedSignUpImport } from "./routes/(unauthorized)/sign-up";
 import { Route as unauthorizedSignInImport } from "./routes/(unauthorized)/sign-in";
-import { Route as defaultProductsIndexImport } from "./routes/(default)/products/index";
+import { Route as authorizedMyIndexImport } from "./routes/(authorized)/my/index";
 import { Route as authorizedChatroomsIndexImport } from "./routes/(authorized)/chatrooms/index";
+import { Route as defaultProductsListImport } from "./routes/(default)/products/_list";
 import { Route as defaultProductsIdImport } from "./routes/(default)/products/$id";
+import { Route as authorizedProductsNewImport } from "./routes/(authorized)/products/new";
+import { Route as defaultProductsListIndexImport } from "./routes/(default)/products/_list.index";
+
+// Create Virtual Routes
+
+const defaultProductsImport = createFileRoute("/(default)/products")();
 
 // Create/Update Routes
 
@@ -36,6 +45,12 @@ const defaultRouteRoute = defaultRouteImport.update({
 const authorizedRouteRoute = authorizedRouteImport.update({
   id: "/(authorized)",
   getParentRoute: () => rootRoute,
+} as any);
+
+const defaultProductsRoute = defaultProductsImport.update({
+  id: "/products",
+  path: "/products",
+  getParentRoute: () => defaultRouteRoute,
 } as any);
 
 const defaultIndexRoute = defaultIndexImport.update({
@@ -56,10 +71,10 @@ const unauthorizedSignInRoute = unauthorizedSignInImport.update({
   getParentRoute: () => unauthorizedRouteRoute,
 } as any);
 
-const defaultProductsIndexRoute = defaultProductsIndexImport.update({
-  id: "/products/",
-  path: "/products/",
-  getParentRoute: () => defaultRouteRoute,
+const authorizedMyIndexRoute = authorizedMyIndexImport.update({
+  id: "/my/",
+  path: "/my/",
+  getParentRoute: () => authorizedRouteRoute,
 } as any);
 
 const authorizedChatroomsIndexRoute = authorizedChatroomsIndexImport.update({
@@ -68,10 +83,27 @@ const authorizedChatroomsIndexRoute = authorizedChatroomsIndexImport.update({
   getParentRoute: () => authorizedRouteRoute,
 } as any);
 
+const defaultProductsListRoute = defaultProductsListImport.update({
+  id: "/_list",
+  getParentRoute: () => defaultProductsRoute,
+} as any);
+
 const defaultProductsIdRoute = defaultProductsIdImport.update({
   id: "/products/$id",
   path: "/products/$id",
   getParentRoute: () => defaultRouteRoute,
+} as any);
+
+const authorizedProductsNewRoute = authorizedProductsNewImport.update({
+  id: "/products/new",
+  path: "/products/new",
+  getParentRoute: () => authorizedRouteRoute,
+} as any);
+
+const defaultProductsListIndexRoute = defaultProductsListIndexImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => defaultProductsListRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -120,12 +152,33 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof defaultIndexImport;
       parentRoute: typeof defaultRouteImport;
     };
+    "/(authorized)/products/new": {
+      id: "/(authorized)/products/new";
+      path: "/products/new";
+      fullPath: "/products/new";
+      preLoaderRoute: typeof authorizedProductsNewImport;
+      parentRoute: typeof authorizedRouteImport;
+    };
     "/(default)/products/$id": {
       id: "/(default)/products/$id";
       path: "/products/$id";
       fullPath: "/products/$id";
       preLoaderRoute: typeof defaultProductsIdImport;
       parentRoute: typeof defaultRouteImport;
+    };
+    "/(default)/products": {
+      id: "/(default)/products";
+      path: "/products";
+      fullPath: "/products";
+      preLoaderRoute: typeof defaultProductsImport;
+      parentRoute: typeof defaultRouteImport;
+    };
+    "/(default)/products/_list": {
+      id: "/(default)/products/_list";
+      path: "/products";
+      fullPath: "/products";
+      preLoaderRoute: typeof defaultProductsListImport;
+      parentRoute: typeof defaultProductsRoute;
     };
     "/(authorized)/chatrooms/": {
       id: "/(authorized)/chatrooms/";
@@ -134,12 +187,19 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof authorizedChatroomsIndexImport;
       parentRoute: typeof authorizedRouteImport;
     };
-    "/(default)/products/": {
-      id: "/(default)/products/";
-      path: "/products";
-      fullPath: "/products";
-      preLoaderRoute: typeof defaultProductsIndexImport;
-      parentRoute: typeof defaultRouteImport;
+    "/(authorized)/my/": {
+      id: "/(authorized)/my/";
+      path: "/my";
+      fullPath: "/my";
+      preLoaderRoute: typeof authorizedMyIndexImport;
+      parentRoute: typeof authorizedRouteImport;
+    };
+    "/(default)/products/_list/": {
+      id: "/(default)/products/_list/";
+      path: "/";
+      fullPath: "/products/";
+      preLoaderRoute: typeof defaultProductsListIndexImport;
+      parentRoute: typeof defaultProductsListImport;
     };
   }
 }
@@ -147,27 +207,54 @@ declare module "@tanstack/react-router" {
 // Create and export the route tree
 
 interface authorizedRouteRouteChildren {
+  authorizedProductsNewRoute: typeof authorizedProductsNewRoute;
   authorizedChatroomsIndexRoute: typeof authorizedChatroomsIndexRoute;
+  authorizedMyIndexRoute: typeof authorizedMyIndexRoute;
 }
 
 const authorizedRouteRouteChildren: authorizedRouteRouteChildren = {
+  authorizedProductsNewRoute: authorizedProductsNewRoute,
   authorizedChatroomsIndexRoute: authorizedChatroomsIndexRoute,
+  authorizedMyIndexRoute: authorizedMyIndexRoute,
 };
 
 const authorizedRouteRouteWithChildren = authorizedRouteRoute._addFileChildren(
   authorizedRouteRouteChildren,
 );
 
+interface defaultProductsListRouteChildren {
+  defaultProductsListIndexRoute: typeof defaultProductsListIndexRoute;
+}
+
+const defaultProductsListRouteChildren: defaultProductsListRouteChildren = {
+  defaultProductsListIndexRoute: defaultProductsListIndexRoute,
+};
+
+const defaultProductsListRouteWithChildren =
+  defaultProductsListRoute._addFileChildren(defaultProductsListRouteChildren);
+
+interface defaultProductsRouteChildren {
+  defaultProductsListRoute: typeof defaultProductsListRouteWithChildren;
+}
+
+const defaultProductsRouteChildren: defaultProductsRouteChildren = {
+  defaultProductsListRoute: defaultProductsListRouteWithChildren,
+};
+
+const defaultProductsRouteWithChildren = defaultProductsRoute._addFileChildren(
+  defaultProductsRouteChildren,
+);
+
 interface defaultRouteRouteChildren {
   defaultIndexRoute: typeof defaultIndexRoute;
   defaultProductsIdRoute: typeof defaultProductsIdRoute;
-  defaultProductsIndexRoute: typeof defaultProductsIndexRoute;
+  defaultProductsRoute: typeof defaultProductsRouteWithChildren;
 }
 
 const defaultRouteRouteChildren: defaultRouteRouteChildren = {
   defaultIndexRoute: defaultIndexRoute,
   defaultProductsIdRoute: defaultProductsIdRoute,
-  defaultProductsIndexRoute: defaultProductsIndexRoute,
+  defaultProductsRoute: defaultProductsRouteWithChildren,
 };
 
 const defaultRouteRouteWithChildren = defaultRouteRoute._addFileChildren(
@@ -191,18 +278,23 @@ export interface FileRoutesByFullPath {
   "/": typeof defaultIndexRoute;
   "/sign-in": typeof unauthorizedSignInRoute;
   "/sign-up": typeof unauthorizedSignUpRoute;
+  "/products/new": typeof authorizedProductsNewRoute;
   "/products/$id": typeof defaultProductsIdRoute;
+  "/products": typeof defaultProductsListRouteWithChildren;
   "/chatrooms": typeof authorizedChatroomsIndexRoute;
-  "/products": typeof defaultProductsIndexRoute;
+  "/my": typeof authorizedMyIndexRoute;
+  "/products/": typeof defaultProductsListIndexRoute;
 }
 
 export interface FileRoutesByTo {
   "/": typeof defaultIndexRoute;
   "/sign-in": typeof unauthorizedSignInRoute;
   "/sign-up": typeof unauthorizedSignUpRoute;
+  "/products/new": typeof authorizedProductsNewRoute;
   "/products/$id": typeof defaultProductsIdRoute;
+  "/products": typeof defaultProductsListIndexRoute;
   "/chatrooms": typeof authorizedChatroomsIndexRoute;
-  "/products": typeof defaultProductsIndexRoute;
+  "/my": typeof authorizedMyIndexRoute;
 }
 
 export interface FileRoutesById {
@@ -213,9 +305,13 @@ export interface FileRoutesById {
   "/(unauthorized)/sign-in": typeof unauthorizedSignInRoute;
   "/(unauthorized)/sign-up": typeof unauthorizedSignUpRoute;
   "/(default)/": typeof defaultIndexRoute;
+  "/(authorized)/products/new": typeof authorizedProductsNewRoute;
   "/(default)/products/$id": typeof defaultProductsIdRoute;
+  "/(default)/products": typeof defaultProductsRouteWithChildren;
+  "/(default)/products/_list": typeof defaultProductsListRouteWithChildren;
   "/(authorized)/chatrooms/": typeof authorizedChatroomsIndexRoute;
-  "/(default)/products/": typeof defaultProductsIndexRoute;
+  "/(authorized)/my/": typeof authorizedMyIndexRoute;
+  "/(default)/products/_list/": typeof defaultProductsListIndexRoute;
 }
 
 export interface FileRouteTypes {
@@ -224,17 +320,22 @@ export interface FileRouteTypes {
     | "/"
     | "/sign-in"
     | "/sign-up"
+    | "/products/new"
     | "/products/$id"
+    | "/products"
     | "/chatrooms"
-    | "/products";
+    | "/my"
+    | "/products/";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
     | "/sign-in"
     | "/sign-up"
+    | "/products/new"
     | "/products/$id"
+    | "/products"
     | "/chatrooms"
-    | "/products";
+    | "/my";
   id:
     | "__root__"
     | "/(authorized)"
@@ -243,9 +344,13 @@ export interface FileRouteTypes {
     | "/(unauthorized)/sign-in"
     | "/(unauthorized)/sign-up"
     | "/(default)/"
+    | "/(authorized)/products/new"
     | "/(default)/products/$id"
+    | "/(default)/products"
+    | "/(default)/products/_list"
     | "/(authorized)/chatrooms/"
-    | "/(default)/products/";
+    | "/(authorized)/my/"
+    | "/(default)/products/_list/";
   fileRoutesById: FileRoutesById;
 }
 
@@ -279,7 +384,9 @@ export const routeTree = rootRoute
     "/(authorized)": {
       "filePath": "(authorized)/route.tsx",
       "children": [
-        "/(authorized)/chatrooms/"
+        "/(authorized)/products/new",
+        "/(authorized)/chatrooms/",
+        "/(authorized)/my/"
       ]
     },
     "/(default)": {
@@ -287,7 +394,7 @@ export const routeTree = rootRoute
       "children": [
         "/(default)/",
         "/(default)/products/$id",
-        "/(default)/products/"
+        "/(default)/products"
       ]
     },
     "/(unauthorized)": {
@@ -309,17 +416,39 @@ export const routeTree = rootRoute
       "filePath": "(default)/index.tsx",
       "parent": "/(default)"
     },
+    "/(authorized)/products/new": {
+      "filePath": "(authorized)/products/new.tsx",
+      "parent": "/(authorized)"
+    },
     "/(default)/products/$id": {
       "filePath": "(default)/products/$id.tsx",
       "parent": "/(default)"
+    },
+    "/(default)/products": {
+      "filePath": "(default)/products",
+      "parent": "/(default)",
+      "children": [
+        "/(default)/products/_list"
+      ]
+    },
+    "/(default)/products/_list": {
+      "filePath": "(default)/products/_list.tsx",
+      "parent": "/(default)/products",
+      "children": [
+        "/(default)/products/_list/"
+      ]
     },
     "/(authorized)/chatrooms/": {
       "filePath": "(authorized)/chatrooms/index.tsx",
       "parent": "/(authorized)"
     },
-    "/(default)/products/": {
-      "filePath": "(default)/products/index.tsx",
-      "parent": "/(default)"
+    "/(authorized)/my/": {
+      "filePath": "(authorized)/my/index.tsx",
+      "parent": "/(authorized)"
+    },
+    "/(default)/products/_list/": {
+      "filePath": "(default)/products/_list.index.tsx",
+      "parent": "/(default)/products/_list"
     }
   }
 }

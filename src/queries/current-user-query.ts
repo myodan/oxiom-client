@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import { fetcher } from "~/lib/fetcher";
 import { type User, UserSchema } from "~/schemas/user";
 
@@ -19,8 +19,4 @@ export function currentUserQueryOptions() {
 				});
 		},
 	});
-}
-
-export function useCurrentUser() {
-	return useSuspenseQuery(currentUserQueryOptions());
 }

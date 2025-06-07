@@ -1,7 +1,7 @@
 export function DeliverySection() {
 	return (
 		<section className="flex flex-col gap-4 rounded-lg border p-4">
-			<h3 className="font-semibold text-lg">배송 정보</h3>
+			<h3 className="font-semibold font-serif text-lg">배송 정보</h3>
 			<div className="grid grid-cols-2 gap-4">
 				<div className="grid gap-1 rounded-lg bg-secondary p-4 text-secondary-foreground">
 					<h4 className="mb-2 font-semibold">배송 방법</h4>

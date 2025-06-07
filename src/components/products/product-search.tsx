@@ -4,7 +4,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { CATEGORYS } from "~/constants/categorys";
-import { Route } from "~/routes/(default)/products";
+import { Route } from "~/routes/(default)/products/_list";
 
 export function ProductSearch() {
 	const search = Route.useSearch();

@@ -1,17 +1,17 @@
 import { Outlet, createFileRoute } from "@tanstack/react-router";
-import { Header } from "~/components/header";
+import { Header } from "~/components/common/header";
 
 export const Route = createFileRoute("/(default)")({
-  component: RouteComponent,
+	component: RouteComponent,
 });
 
 function RouteComponent() {
-  return (
-    <>
-      <Header />
-      <div className="container mx-auto my-4 flex flex-col gap-4 px-4">
-        <Outlet />
-      </div>
-    </>
-  );
+	return (
+		<>
+			<Header />
+			<div className="container mx-auto my-4 flex max-w-7xl flex-col gap-4 px-4">
+				<Outlet />
+			</div>
+		</>
+	);
 }

@@ -1,4 +1,5 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { Header } from "~/components/common/header";
 import { currentUserQueryOptions } from "~/queries/current-user-query";
 
 export const Route = createFileRoute("/(authorized)")({
@@ -14,5 +15,12 @@ export const Route = createFileRoute("/(authorized)")({
 });
 
 function RouteComponent() {
-	return <div>Hello "/(authorized)"!</div>;
+	return (
+		<>
+			<Header />
+			<div className="container mx-auto my-4 flex max-w-7xl flex-col gap-4 px-4">
+				<Outlet />
+			</div>
+		</>
+	);
 }
