@@ -1,4 +1,4 @@
-import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -21,7 +21,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useSignIn } from "~/mutations/sign-in-mutation";
-import { type SignInForm, SignInFormSchema } from "~/schemas/forms/sign-in";
+import { SignInFormSchema } from "~/schemas/forms/sign-in";
 
 export const Route = createFileRoute("/(unauthorized)/sign-in")({
 	validateSearch: z.object({
@@ -31,8 +31,8 @@ export const Route = createFileRoute("/(unauthorized)/sign-in")({
 });
 
 function RouteComponent() {
-	const form = useForm<SignInForm>({
-		resolver: standardSchemaResolver(SignInFormSchema),
+	const form = useForm({
+		resolver: zodResolver(SignInFormSchema),
 		defaultValues: {
 			username: "",
 			password: "",

@@ -29,7 +29,7 @@ function RouteComponent() {
 	const { categoryId } = Route.useSearch();
 
 	return (
-		<div className="flex items-start gap-4">
+		<div className="flex gap-4">
 			<aside className="flex basis-1/4 flex-col gap-6">
 				<ProductSearch />
 			</aside>

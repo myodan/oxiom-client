@@ -1,6 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { LogOutIcon, UserCog2Icon, UserIcon } from "lucide-react";
+import {
+	LogOutIcon,
+	MessageSquareIcon,
+	UserCog2Icon,
+	UserIcon,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
 	DropdownMenu,
@@ -45,6 +50,9 @@ export function UserMenu() {
 				<DropdownMenuSeparator />
 				<DropdownMenuItem onClick={() => navigate({ to: "/my" })}>
 					<UserCog2Icon /> 내 정보
+				</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => navigate({ to: "/chat-rooms" })}>
+					<MessageSquareIcon /> 채팅
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>

@@ -9,7 +9,7 @@ function RouteComponent() {
 	return (
 		<>
 			<Header />
-			<div className="container mx-auto my-4 flex max-w-7xl flex-col gap-4 px-4">
+			<div className="container mx-auto my-4 flex max-w-7xl grow flex-col gap-4 px-4">
 				<Outlet />
 			</div>
 		</>
