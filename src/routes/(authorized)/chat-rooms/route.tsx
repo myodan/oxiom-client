@@ -3,10 +3,10 @@ import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 import { UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { chatRoomsQueryOptions } from "~/queries/chat-rooms-query";
+import { chatRoomsQueryOptions } from "~/queries/chat-rooms";
 
 export const Route = createFileRoute("/(authorized)/chat-rooms")({
-	loader: async ({ context: { queryClient, currentUser } }) => {
+	loader: ({ context: { queryClient, currentUser } }) => {
 		queryClient.ensureQueryData(chatRoomsQueryOptions(currentUser.id));
 	},
 	component: RouteComponent,
@@ -65,9 +65,7 @@ function RouteComponent() {
 				</ScrollArea>
 			</aside>
 			<main className="flex basis-3/4 flex-col gap-4">
-				<ScrollArea className="flex flex-1 flex-col gap-2 overflow-y-scroll rounded-md border p-2">
-					<Outlet />
-				</ScrollArea>
+				<Outlet />
 			</main>
 		</div>
 	);

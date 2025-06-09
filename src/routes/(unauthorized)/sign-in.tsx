@@ -20,7 +20,7 @@ import {
 	FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { useSignIn } from "~/mutations/sign-in-mutation";
+import { useSignInMutation } from "~/mutations/sign-in-mutation";
 import { SignInFormSchema } from "~/schemas/forms/sign-in";
 
 export const Route = createFileRoute("/(unauthorized)/sign-in")({
@@ -39,7 +39,7 @@ function RouteComponent() {
 		},
 	});
 
-	const { mutate, isPending } = useSignIn();
+	const { mutate, isPending } = useSignInMutation();
 
 	const onSubmit = form.handleSubmit((values) => {
 		mutate(values);
@@ -81,18 +81,20 @@ function RouteComponent() {
 							)}
 						/>
 						<div className="flex flex-col gap-4">
-							<Button type="submit">로그인</Button>
+							<Button type="submit">
+								{isPending ? (
+									<Loader2Icon className="animate-spin" />
+								) : (
+									"로그인"
+								)}
+							</Button>
 							<div className="text-center text-sm">
 								아직 계정이 없으신가요?{" "}
 								<Link
 									to="/sign-up"
 									className="text-primary underline-offset-4 hover:underline "
 								>
-									{isPending ? (
-										<Loader2Icon className="animate-spin" />
-									) : (
-										"회원가입"
-									)}
+									회원가입
 								</Link>
 							</div>
 						</div>

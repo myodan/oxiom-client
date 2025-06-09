@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 import { Logo } from "~/components/common/logo";
-import { currentUserQueryOptions } from "~/queries/current-user-query";
+import { currentUserQueryOptions } from "~/queries/current-user";
 
 export const Route = createFileRoute("/(unauthorized)")({
 	beforeLoad: async ({ context: { queryClient } }) => {

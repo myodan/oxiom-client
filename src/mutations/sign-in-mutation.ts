@@ -2,13 +2,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { fetcher } from "~/lib/fetcher";
-import { currentUserQueryOptions } from "~/queries/current-user-query";
+import { currentUserQueryOptions } from "~/queries/current-user";
 import { Route } from "~/routes/(unauthorized)/sign-in";
 import type { SignInForm } from "~/schemas/forms/sign-in";
 import type { Token } from "~/schemas/token";
 import { useTokenStore } from "~/stores/token-store";
 
-export function useSignIn() {
+export function useSignInMutation() {
 	const search = Route.useSearch();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();

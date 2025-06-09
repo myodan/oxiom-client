@@ -15,11 +15,13 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { currentUserQueryOptions } from "~/queries/current-user-query";
+import { useSignOutMutation } from "~/mutations/sign-out-mutation";
+import { currentUserQueryOptions } from "~/queries/current-user";
 
 export function UserMenu() {
 	const navigate = useNavigate();
 	const { data: currentUser } = useSuspenseQuery(currentUserQueryOptions());
+	const { mutate: signOutMutation } = useSignOutMutation();
 
 	if (!currentUser) {
 		throw new Error("사용자 정보가 없습니다. 로그인 상태를 확인하세요.");
@@ -55,7 +57,7 @@ export function UserMenu() {
 					<MessageSquareIcon /> 채팅
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
+				<DropdownMenuItem onClick={() => signOutMutation()}>
 					<LogOutIcon />
 					로그아웃
 				</DropdownMenuItem>

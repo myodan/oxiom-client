@@ -4,7 +4,7 @@ import { Loader2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Porduct } from "~/components/products/product";
-import { productsInfiniteQueryOptions } from "~/queries/products-infinite-query";
+import { productsInfiniteQueryOptions } from "~/queries/products";
 
 export const Route = createFileRoute("/(default)/products/_list/")({
 	pendingComponent: () => null,
@@ -26,7 +26,7 @@ function RouteComponent() {
 	return (
 		<ul className="grid grid-cols-3 gap-4">
 			{data.pages.map((page) =>
-				page.content.map((product) => (
+				page?.content.map((product) => (
 					<Porduct key={product.id} product={product} />
 				)),
 			)}

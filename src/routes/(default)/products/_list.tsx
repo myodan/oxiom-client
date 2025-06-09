@@ -5,7 +5,7 @@ import { ProductSearch } from "~/components/products/product-search";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { CATEGORYS } from "~/constants/categorys";
-import { productsInfiniteQueryOptions } from "~/queries/products-infinite-query";
+import { productsInfiniteQueryOptions } from "~/queries/products";
 
 export const Route = createFileRoute("/(default)/products/_list")({
 	validateSearch: z.object({
