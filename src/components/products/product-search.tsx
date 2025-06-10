@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
-import { CATEGORYS } from "~/constants/categorys";
+import { CATEGORIES } from "~/constants/categories";
 import { Route } from "~/routes/(default)/products/_list";
 
 export function ProductSearch() {
@@ -63,7 +63,7 @@ export function ProductSearch() {
 					value={search.categoryId?.toString() || ""}
 					onValueChange={(value) => updateSearchParams("categoryId", +value)}
 				>
-					{CATEGORYS.map((category) => (
+					{CATEGORIES.map((category) => (
 						<div key={category.id} className="flex gap-2">
 							<RadioGroupItem
 								id={`category-${category.id}`}

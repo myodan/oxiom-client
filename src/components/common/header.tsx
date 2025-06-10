@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "~/components/common/logo";
-import { ThemeSelector } from "~/components/common/theme-selector";
+import { ThemeSelect } from "~/components/common/theme-select";
 import { UserMenu } from "~/components/common/user-menu";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
@@ -35,7 +35,7 @@ export function Header() {
 						</Link>
 					)}
 					<Separator orientation="vertical" />
-					<ThemeSelector />
+					<ThemeSelect />
 				</div>
 			</div>
 		</header>

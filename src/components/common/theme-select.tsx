@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { useThemeStore } from "~/stores/theme-store";
 
-export const ThemeSelector: FC = () => {
+export const ThemeSelect: FC = () => {
 	const { theme, setTheme } = useThemeStore();
 
 	return (

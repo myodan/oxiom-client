@@ -27,18 +27,20 @@ const attemptTokenRefresh: BeforeRetryHook = async ({ error }) => {
 		return ky.stop;
 	}
 
+	const { setAccessToken } = useTokenStore.getState();
+
 	const response = await baseFetcher.post<TokenResponse>("auth/token/refresh", {
 		credentials: "include",
 	});
 
 	if (!response.ok) {
-		useTokenStore.setState({ accessToken: null });
+		setAccessToken(null);
 		return ky.stop;
 	}
 
 	const { accessToken } = await response.json();
 
-	useTokenStore.setState({ accessToken });
+	setAccessToken(accessToken);
 };
 
 export const fetcher = baseFetcher.extend({

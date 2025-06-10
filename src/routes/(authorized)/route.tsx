@@ -1,13 +1,11 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { Header } from "~/components/common/header";
-import { currentUserQueryOptions } from "~/queries/current-user";
 
 export const Route = createFileRoute("/(authorized)")({
-	beforeLoad: async ({ context: { queryClient }, location }) => {
-		const currentUser = await queryClient.ensureQueryData(
-			currentUserQueryOptions(),
-		);
+	beforeLoad: async ({ context: { currentUser }, location }) => {
 		if (!currentUser) {
+			toast.error("로그인이 필요합니다.");
 			throw redirect({ to: "/sign-in", search: { redirect: location.href } });
 		}
 

@@ -4,7 +4,7 @@ import { z } from "zod/v4";
 import { ProductSearch } from "~/components/products/product-search";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { CATEGORYS } from "~/constants/categorys";
+import { CATEGORIES } from "~/constants/categories";
 import { productsInfiniteQueryOptions } from "~/queries/products";
 
 export const Route = createFileRoute("/(default)/products/_list")({
@@ -38,7 +38,7 @@ function RouteComponent() {
 					<div className="flex items-center justify-between gap-4">
 						<h1 className="font-bold font-serif text-2xl">상품 목록</h1>
 						<div className="flex items-center gap-2">
-							<Link to="/products/new">
+							<Link to="/products/new" preload={false}>
 								<Button>
 									<PlusIcon /> 새 상품 등록
 								</Button>
@@ -58,7 +58,7 @@ function RouteComponent() {
 							}
 							className="cursor-pointer"
 						>
-							{CATEGORYS[categoryId - 1].name}
+							{CATEGORIES[categoryId - 1].name}
 							<XIcon />
 						</Badge>
 					)}

@@ -49,7 +49,7 @@ function RouteComponent() {
 		<Card>
 			<CardHeader>
 				<CardTitle className="font-serif text-xl">로그인</CardTitle>
-				<CardDescription>Oxiom에 로그인하세요</CardDescription>
+				<CardDescription>Oxiom에 로그인하세요!</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>

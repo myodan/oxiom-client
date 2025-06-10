@@ -1,25 +1,39 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { SendIcon, UserIcon } from "lucide-react";
+import { useCallback, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormMessage,
+} from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { cn } from "~/lib/utils";
 import { chatMessagesQueryOptions } from "~/queries/chat-messages";
 import { chatRoomQueryOptions } from "~/queries/chat-room";
+import { chatRoomsQueryOptions } from "~/queries/chat-rooms";
+import type { ChatMessage } from "~/schemas/chat-message";
+import { ChatMessageFormSchema } from "~/schemas/forms/chat-message";
+import { useStompClientStore } from "~/stores/stomp-client-store";
 
 export const Route = createFileRoute("/(authorized)/chat-rooms/$id")({
 	loader: ({ context: { queryClient }, params: { id } }) => {
 		queryClient.ensureQueryData(chatRoomQueryOptions(+id));
 		queryClient.ensureQueryData(chatMessagesQueryOptions(+id));
 	},
+	pendingComponent: () => null,
 	component: RouteComponent,
 });
 
 function RouteComponent() {
 	const { id } = Route.useParams();
-	const { currentUser } = Route.useRouteContext();
 	const { data: chatRoom } = useSuspenseQuery(chatRoomQueryOptions(+id));
 	const { data: chatMessages } = useSuspenseQuery(
 		chatMessagesQueryOptions(+id),
@@ -29,8 +43,70 @@ function RouteComponent() {
 		throw notFound();
 	}
 
+	const { currentUser } = Route.useRouteContext();
+
 	const targetUser =
 		chatRoom.user1.id === currentUser.id ? chatRoom.user2 : chatRoom.user1;
+
+	const queryClient = useQueryClient();
+	const { stompClient } = useStompClientStore();
+
+	const handleMessage = useCallback(
+		(chatMessage: ChatMessage) => {
+			queryClient.setQueryData(
+				chatMessagesQueryOptions(+id).queryKey,
+				(prev) => {
+					if (!prev) return prev;
+					return {
+						...prev,
+						content: [chatMessage, ...prev.content],
+					};
+				},
+			);
+			queryClient.setQueryData(
+				chatRoomsQueryOptions(currentUser.id).queryKey,
+				(prev) => {
+					if (!prev) return prev;
+					return {
+						...prev,
+						content: prev.content.map((room) =>
+							room.id === chatRoom.id
+								? { ...room, lastChatMessage: chatMessage }
+								: room,
+						),
+					};
+				},
+			);
+		},
+		[id, chatRoom.id, currentUser.id, queryClient],
+	);
+
+	useEffect(() => {
+		const stompSub = stompClient.subscribe(`/sub/chat-rooms/${id}`, (message) =>
+			handleMessage(JSON.parse(message.body)),
+		);
+
+		return () => {
+			stompSub.unsubscribe();
+		};
+	}, [id, stompClient, handleMessage]);
+
+	const form = useForm({
+		resolver: zodResolver(ChatMessageFormSchema),
+		defaultValues: {
+			content: "",
+		},
+	});
+
+	const handleSubmit = form.handleSubmit((data) => {
+		stompClient.publish({
+			destination: `/pub/chat-rooms/${id}`,
+			body: JSON.stringify({
+				content: data.content,
+			}),
+		});
+		form.reset();
+	});
 
 	return (
 		<div className="flex min-h-0 grow flex-col rounded-md border">
@@ -46,7 +122,7 @@ function RouteComponent() {
 				</div>
 			</div>
 			<ScrollArea className="grow overflow-y-scroll">
-				<div className="flex flex-col gap-2 p-2">
+				<div className="flex flex-col gap-2 p-4">
 					{chatMessages.content
 						.slice()
 						.reverse()
@@ -54,7 +130,7 @@ function RouteComponent() {
 							const isCurrentUser = currentUser.id === chatMessage.senderId;
 
 							return (
-								<div key={chatMessage.id} className={"flex flex-col gap-1"}>
+								<div key={chatMessage.id} className="flex flex-col gap-1">
 									<div
 										className={cn(
 											"rounded-md p-2",
@@ -78,12 +154,25 @@ function RouteComponent() {
 						})}
 				</div>
 			</ScrollArea>
-			<div className="flex gap-2 border-t p-2">
-				<Input placeholder="채팅을 입력하세요" />
-				<Button size="icon">
-					<SendIcon />
-				</Button>
-			</div>
+			<Form {...form}>
+				<form className="flex gap-2 border-t p-4" onSubmit={handleSubmit}>
+					<FormField
+						control={form.control}
+						name="content"
+						render={({ field }) => (
+							<FormItem className="grow">
+								<FormControl>
+									<Input placeholder="채팅을 입력하세요" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<Button type="submit" size="icon">
+						<SendIcon />
+					</Button>
+				</form>
+			</Form>
 		</div>
 	);
 }

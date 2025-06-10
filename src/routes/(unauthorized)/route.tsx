@@ -1,13 +1,11 @@
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { Logo } from "~/components/common/logo";
-import { currentUserQueryOptions } from "~/queries/current-user";
 
 export const Route = createFileRoute("/(unauthorized)")({
-	beforeLoad: async ({ context: { queryClient } }) => {
-		const currentUser = await queryClient.ensureQueryData(
-			currentUserQueryOptions(),
-		);
+	beforeLoad: async ({ context: { currentUser } }) => {
 		if (currentUser) {
+			toast.error("잘못된 접근입니다.");
 			throw redirect({ to: "/" });
 		}
 	},

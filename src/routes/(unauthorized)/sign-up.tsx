@@ -47,8 +47,8 @@ function RouteComponent() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle className="font-serif text-xl">로그인</CardTitle>
-				<CardDescription>Oxiom에 로그인하세요</CardDescription>
+				<CardTitle className="font-serif text-xl">회원가입</CardTitle>
+				<CardDescription>Oxiom에 회원가입하세요!</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>

@@ -1,4 +1,4 @@
-export const CATEGORYS = [
+export const CATEGORIES = [
 	{ id: 1, name: "디지털기기" },
 	{ id: 2, name: "생활가전" },
 	{ id: 3, name: "가구/인테리어" },
