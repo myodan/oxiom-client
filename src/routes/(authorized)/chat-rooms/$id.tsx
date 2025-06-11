@@ -49,7 +49,7 @@ function RouteComponent() {
 		chatRoom.user1.id === currentUser.id ? chatRoom.user2 : chatRoom.user1;
 
 	const queryClient = useQueryClient();
-	const { stompClient } = useStompClientStore();
+	const stompClient = useStompClientStore((state) => state.stompClient);
 
 	const handleMessage = useCallback(
 		(chatMessage: ChatMessage) => {

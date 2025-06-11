@@ -10,117 +10,190 @@
 
 import { createFileRoute } from "@tanstack/react-router";
 
-// Import Routes
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as unauthorizedRouteRouteImport } from "./routes/(unauthorized)/route";
+import { Route as defaultRouteRouteImport } from "./routes/(default)/route";
+import { Route as authorizedRouteRouteImport } from "./routes/(authorized)/route";
+import { Route as defaultIndexRouteImport } from "./routes/(default)/index";
+import { Route as unauthorizedSignUpRouteImport } from "./routes/(unauthorized)/sign-up";
+import { Route as unauthorizedSignInRouteImport } from "./routes/(unauthorized)/sign-in";
+import { Route as authorizedChatRoomsRouteRouteImport } from "./routes/(authorized)/chat-rooms/route";
+import { Route as authorizedMyIndexRouteImport } from "./routes/(authorized)/my/index";
+import { Route as authorizedChatRoomsIndexRouteImport } from "./routes/(authorized)/chat-rooms/index";
+import { Route as defaultProductsListRouteImport } from "./routes/(default)/products/_list";
+import { Route as defaultProductsIdRouteImport } from "./routes/(default)/products/$id";
+import { Route as authorizedProductsNewRouteImport } from "./routes/(authorized)/products/new";
+import { Route as authorizedChatRoomsIdRouteImport } from "./routes/(authorized)/chat-rooms/$id";
+import { Route as defaultProductsListIndexRouteImport } from "./routes/(default)/products/_list.index";
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as unauthorizedRouteImport } from "./routes/(unauthorized)/route";
-import { Route as defaultRouteImport } from "./routes/(default)/route";
-import { Route as authorizedRouteImport } from "./routes/(authorized)/route";
-import { Route as defaultIndexImport } from "./routes/(default)/index";
-import { Route as unauthorizedSignUpImport } from "./routes/(unauthorized)/sign-up";
-import { Route as unauthorizedSignInImport } from "./routes/(unauthorized)/sign-in";
-import { Route as authorizedChatRoomsRouteImport } from "./routes/(authorized)/chat-rooms/route";
-import { Route as authorizedMyIndexImport } from "./routes/(authorized)/my/index";
-import { Route as authorizedChatRoomsIndexImport } from "./routes/(authorized)/chat-rooms/index";
-import { Route as defaultProductsListImport } from "./routes/(default)/products/_list";
-import { Route as defaultProductsIdImport } from "./routes/(default)/products/$id";
-import { Route as authorizedProductsNewImport } from "./routes/(authorized)/products/new";
-import { Route as authorizedChatRoomsIdImport } from "./routes/(authorized)/chat-rooms/$id";
-import { Route as defaultProductsListIndexImport } from "./routes/(default)/products/_list.index";
+const defaultProductsRouteImport = createFileRoute("/(default)/products")();
 
-// Create Virtual Routes
-
-const defaultProductsImport = createFileRoute("/(default)/products")();
-
-// Create/Update Routes
-
-const unauthorizedRouteRoute = unauthorizedRouteImport.update({
+const unauthorizedRouteRoute = unauthorizedRouteRouteImport.update({
   id: "/(unauthorized)",
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any);
-
-const defaultRouteRoute = defaultRouteImport.update({
+const defaultRouteRoute = defaultRouteRouteImport.update({
   id: "/(default)",
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any);
-
-const authorizedRouteRoute = authorizedRouteImport.update({
+const authorizedRouteRoute = authorizedRouteRouteImport.update({
   id: "/(authorized)",
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any);
-
-const defaultProductsRoute = defaultProductsImport.update({
+const defaultProductsRoute = defaultProductsRouteImport.update({
   id: "/products",
   path: "/products",
   getParentRoute: () => defaultRouteRoute,
 } as any);
-
-const defaultIndexRoute = defaultIndexImport.update({
+const defaultIndexRoute = defaultIndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => defaultRouteRoute,
 } as any);
-
-const unauthorizedSignUpRoute = unauthorizedSignUpImport.update({
+const unauthorizedSignUpRoute = unauthorizedSignUpRouteImport.update({
   id: "/sign-up",
   path: "/sign-up",
   getParentRoute: () => unauthorizedRouteRoute,
 } as any);
-
-const unauthorizedSignInRoute = unauthorizedSignInImport.update({
+const unauthorizedSignInRoute = unauthorizedSignInRouteImport.update({
   id: "/sign-in",
   path: "/sign-in",
   getParentRoute: () => unauthorizedRouteRoute,
 } as any);
-
-const authorizedChatRoomsRouteRoute = authorizedChatRoomsRouteImport.update({
-  id: "/chat-rooms",
-  path: "/chat-rooms",
-  getParentRoute: () => authorizedRouteRoute,
-} as any);
-
-const authorizedMyIndexRoute = authorizedMyIndexImport.update({
+const authorizedChatRoomsRouteRoute =
+  authorizedChatRoomsRouteRouteImport.update({
+    id: "/chat-rooms",
+    path: "/chat-rooms",
+    getParentRoute: () => authorizedRouteRoute,
+  } as any);
+const authorizedMyIndexRoute = authorizedMyIndexRouteImport.update({
   id: "/my/",
   path: "/my/",
   getParentRoute: () => authorizedRouteRoute,
 } as any);
-
-const authorizedChatRoomsIndexRoute = authorizedChatRoomsIndexImport.update({
-  id: "/",
-  path: "/",
-  getParentRoute: () => authorizedChatRoomsRouteRoute,
-} as any);
-
-const defaultProductsListRoute = defaultProductsListImport.update({
+const authorizedChatRoomsIndexRoute =
+  authorizedChatRoomsIndexRouteImport.update({
+    id: "/",
+    path: "/",
+    getParentRoute: () => authorizedChatRoomsRouteRoute,
+  } as any);
+const defaultProductsListRoute = defaultProductsListRouteImport.update({
   id: "/_list",
   getParentRoute: () => defaultProductsRoute,
 } as any);
-
-const defaultProductsIdRoute = defaultProductsIdImport.update({
+const defaultProductsIdRoute = defaultProductsIdRouteImport.update({
   id: "/products/$id",
   path: "/products/$id",
   getParentRoute: () => defaultRouteRoute,
 } as any);
-
-const authorizedProductsNewRoute = authorizedProductsNewImport.update({
+const authorizedProductsNewRoute = authorizedProductsNewRouteImport.update({
   id: "/products/new",
   path: "/products/new",
   getParentRoute: () => authorizedRouteRoute,
 } as any);
-
-const authorizedChatRoomsIdRoute = authorizedChatRoomsIdImport.update({
+const authorizedChatRoomsIdRoute = authorizedChatRoomsIdRouteImport.update({
   id: "/$id",
   path: "/$id",
   getParentRoute: () => authorizedChatRoomsRouteRoute,
 } as any);
+const defaultProductsListIndexRoute =
+  defaultProductsListIndexRouteImport.update({
+    id: "/",
+    path: "/",
+    getParentRoute: () => defaultProductsListRoute,
+  } as any);
 
-const defaultProductsListIndexRoute = defaultProductsListIndexImport.update({
-  id: "/",
-  path: "/",
-  getParentRoute: () => defaultProductsListRoute,
-} as any);
-
-// Populate the FileRoutesByPath interface
+export interface FileRoutesByFullPath {
+  "/": typeof defaultIndexRoute;
+  "/chat-rooms": typeof authorizedChatRoomsRouteRouteWithChildren;
+  "/sign-in": typeof unauthorizedSignInRoute;
+  "/sign-up": typeof unauthorizedSignUpRoute;
+  "/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
+  "/products/new": typeof authorizedProductsNewRoute;
+  "/products/$id": typeof defaultProductsIdRoute;
+  "/products": typeof defaultProductsListRouteWithChildren;
+  "/chat-rooms/": typeof authorizedChatRoomsIndexRoute;
+  "/my": typeof authorizedMyIndexRoute;
+  "/products/": typeof defaultProductsListIndexRoute;
+}
+export interface FileRoutesByTo {
+  "/": typeof defaultIndexRoute;
+  "/sign-in": typeof unauthorizedSignInRoute;
+  "/sign-up": typeof unauthorizedSignUpRoute;
+  "/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
+  "/products/new": typeof authorizedProductsNewRoute;
+  "/products/$id": typeof defaultProductsIdRoute;
+  "/products": typeof defaultProductsListIndexRoute;
+  "/chat-rooms": typeof authorizedChatRoomsIndexRoute;
+  "/my": typeof authorizedMyIndexRoute;
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport;
+  "/(authorized)": typeof authorizedRouteRouteWithChildren;
+  "/(default)": typeof defaultRouteRouteWithChildren;
+  "/(unauthorized)": typeof unauthorizedRouteRouteWithChildren;
+  "/(authorized)/chat-rooms": typeof authorizedChatRoomsRouteRouteWithChildren;
+  "/(unauthorized)/sign-in": typeof unauthorizedSignInRoute;
+  "/(unauthorized)/sign-up": typeof unauthorizedSignUpRoute;
+  "/(default)/": typeof defaultIndexRoute;
+  "/(authorized)/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
+  "/(authorized)/products/new": typeof authorizedProductsNewRoute;
+  "/(default)/products/$id": typeof defaultProductsIdRoute;
+  "/(default)/products": typeof defaultProductsRouteWithChildren;
+  "/(default)/products/_list": typeof defaultProductsListRouteWithChildren;
+  "/(authorized)/chat-rooms/": typeof authorizedChatRoomsIndexRoute;
+  "/(authorized)/my/": typeof authorizedMyIndexRoute;
+  "/(default)/products/_list/": typeof defaultProductsListIndexRoute;
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths:
+    | "/"
+    | "/chat-rooms"
+    | "/sign-in"
+    | "/sign-up"
+    | "/chat-rooms/$id"
+    | "/products/new"
+    | "/products/$id"
+    | "/products"
+    | "/chat-rooms/"
+    | "/my"
+    | "/products/";
+  fileRoutesByTo: FileRoutesByTo;
+  to:
+    | "/"
+    | "/sign-in"
+    | "/sign-up"
+    | "/chat-rooms/$id"
+    | "/products/new"
+    | "/products/$id"
+    | "/products"
+    | "/chat-rooms"
+    | "/my";
+  id:
+    | "__root__"
+    | "/(authorized)"
+    | "/(default)"
+    | "/(unauthorized)"
+    | "/(authorized)/chat-rooms"
+    | "/(unauthorized)/sign-in"
+    | "/(unauthorized)/sign-up"
+    | "/(default)/"
+    | "/(authorized)/chat-rooms/$id"
+    | "/(authorized)/products/new"
+    | "/(default)/products/$id"
+    | "/(default)/products"
+    | "/(default)/products/_list"
+    | "/(authorized)/chat-rooms/"
+    | "/(authorized)/my/"
+    | "/(default)/products/_list/";
+  fileRoutesById: FileRoutesById;
+}
+export interface RootRouteChildren {
+  authorizedRouteRoute: typeof authorizedRouteRouteWithChildren;
+  defaultRouteRoute: typeof defaultRouteRouteWithChildren;
+  unauthorizedRouteRoute: typeof unauthorizedRouteRouteWithChildren;
+}
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
@@ -128,111 +201,102 @@ declare module "@tanstack/react-router" {
       id: "/(authorized)";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof authorizedRouteImport;
-      parentRoute: typeof rootRoute;
+      preLoaderRoute: typeof authorizedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
     };
     "/(default)": {
       id: "/(default)";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof defaultRouteImport;
-      parentRoute: typeof rootRoute;
+      preLoaderRoute: typeof defaultRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
     };
     "/(unauthorized)": {
       id: "/(unauthorized)";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof unauthorizedRouteImport;
-      parentRoute: typeof rootRoute;
+      preLoaderRoute: typeof unauthorizedRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
     };
     "/(authorized)/chat-rooms": {
       id: "/(authorized)/chat-rooms";
       path: "/chat-rooms";
       fullPath: "/chat-rooms";
-      preLoaderRoute: typeof authorizedChatRoomsRouteImport;
-      parentRoute: typeof authorizedRouteImport;
+      preLoaderRoute: typeof authorizedChatRoomsRouteRouteImport;
+      parentRoute: typeof authorizedRouteRoute;
     };
     "/(unauthorized)/sign-in": {
       id: "/(unauthorized)/sign-in";
       path: "/sign-in";
       fullPath: "/sign-in";
-      preLoaderRoute: typeof unauthorizedSignInImport;
-      parentRoute: typeof unauthorizedRouteImport;
+      preLoaderRoute: typeof unauthorizedSignInRouteImport;
+      parentRoute: typeof unauthorizedRouteRoute;
     };
     "/(unauthorized)/sign-up": {
       id: "/(unauthorized)/sign-up";
       path: "/sign-up";
       fullPath: "/sign-up";
-      preLoaderRoute: typeof unauthorizedSignUpImport;
-      parentRoute: typeof unauthorizedRouteImport;
+      preLoaderRoute: typeof unauthorizedSignUpRouteImport;
+      parentRoute: typeof unauthorizedRouteRoute;
     };
     "/(default)/": {
       id: "/(default)/";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof defaultIndexImport;
-      parentRoute: typeof defaultRouteImport;
+      preLoaderRoute: typeof defaultIndexRouteImport;
+      parentRoute: typeof defaultRouteRoute;
     };
     "/(authorized)/chat-rooms/$id": {
       id: "/(authorized)/chat-rooms/$id";
       path: "/$id";
       fullPath: "/chat-rooms/$id";
-      preLoaderRoute: typeof authorizedChatRoomsIdImport;
-      parentRoute: typeof authorizedChatRoomsRouteImport;
+      preLoaderRoute: typeof authorizedChatRoomsIdRouteImport;
+      parentRoute: typeof authorizedChatRoomsRouteRoute;
     };
     "/(authorized)/products/new": {
       id: "/(authorized)/products/new";
       path: "/products/new";
       fullPath: "/products/new";
-      preLoaderRoute: typeof authorizedProductsNewImport;
-      parentRoute: typeof authorizedRouteImport;
+      preLoaderRoute: typeof authorizedProductsNewRouteImport;
+      parentRoute: typeof authorizedRouteRoute;
     };
     "/(default)/products/$id": {
       id: "/(default)/products/$id";
       path: "/products/$id";
       fullPath: "/products/$id";
-      preLoaderRoute: typeof defaultProductsIdImport;
-      parentRoute: typeof defaultRouteImport;
-    };
-    "/(default)/products": {
-      id: "/(default)/products";
-      path: "/products";
-      fullPath: "/products";
-      preLoaderRoute: typeof defaultProductsImport;
-      parentRoute: typeof defaultRouteImport;
+      preLoaderRoute: typeof defaultProductsIdRouteImport;
+      parentRoute: typeof defaultRouteRoute;
     };
     "/(default)/products/_list": {
       id: "/(default)/products/_list";
       path: "/products";
       fullPath: "/products";
-      preLoaderRoute: typeof defaultProductsListImport;
+      preLoaderRoute: typeof defaultProductsListRouteImport;
       parentRoute: typeof defaultProductsRoute;
     };
     "/(authorized)/chat-rooms/": {
       id: "/(authorized)/chat-rooms/";
       path: "/";
       fullPath: "/chat-rooms/";
-      preLoaderRoute: typeof authorizedChatRoomsIndexImport;
-      parentRoute: typeof authorizedChatRoomsRouteImport;
+      preLoaderRoute: typeof authorizedChatRoomsIndexRouteImport;
+      parentRoute: typeof authorizedChatRoomsRouteRoute;
     };
     "/(authorized)/my/": {
       id: "/(authorized)/my/";
       path: "/my";
       fullPath: "/my";
-      preLoaderRoute: typeof authorizedMyIndexImport;
-      parentRoute: typeof authorizedRouteImport;
+      preLoaderRoute: typeof authorizedMyIndexRouteImport;
+      parentRoute: typeof authorizedRouteRoute;
     };
     "/(default)/products/_list/": {
       id: "/(default)/products/_list/";
       path: "/";
       fullPath: "/products/";
-      preLoaderRoute: typeof defaultProductsListIndexImport;
-      parentRoute: typeof defaultProductsListImport;
+      preLoaderRoute: typeof defaultProductsListIndexRouteImport;
+      parentRoute: typeof defaultProductsListRoute;
     };
   }
 }
-
-// Create and export the route tree
 
 interface authorizedChatRoomsRouteRouteChildren {
   authorizedChatRoomsIdRoute: typeof authorizedChatRoomsIdRoute;
@@ -318,204 +382,11 @@ const unauthorizedRouteRouteChildren: unauthorizedRouteRouteChildren = {
 const unauthorizedRouteRouteWithChildren =
   unauthorizedRouteRoute._addFileChildren(unauthorizedRouteRouteChildren);
 
-export interface FileRoutesByFullPath {
-  "/": typeof defaultIndexRoute;
-  "/chat-rooms": typeof authorizedChatRoomsRouteRouteWithChildren;
-  "/sign-in": typeof unauthorizedSignInRoute;
-  "/sign-up": typeof unauthorizedSignUpRoute;
-  "/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
-  "/products/new": typeof authorizedProductsNewRoute;
-  "/products/$id": typeof defaultProductsIdRoute;
-  "/products": typeof defaultProductsListRouteWithChildren;
-  "/chat-rooms/": typeof authorizedChatRoomsIndexRoute;
-  "/my": typeof authorizedMyIndexRoute;
-  "/products/": typeof defaultProductsListIndexRoute;
-}
-
-export interface FileRoutesByTo {
-  "/": typeof defaultIndexRoute;
-  "/sign-in": typeof unauthorizedSignInRoute;
-  "/sign-up": typeof unauthorizedSignUpRoute;
-  "/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
-  "/products/new": typeof authorizedProductsNewRoute;
-  "/products/$id": typeof defaultProductsIdRoute;
-  "/products": typeof defaultProductsListIndexRoute;
-  "/chat-rooms": typeof authorizedChatRoomsIndexRoute;
-  "/my": typeof authorizedMyIndexRoute;
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/(authorized)": typeof authorizedRouteRouteWithChildren;
-  "/(default)": typeof defaultRouteRouteWithChildren;
-  "/(unauthorized)": typeof unauthorizedRouteRouteWithChildren;
-  "/(authorized)/chat-rooms": typeof authorizedChatRoomsRouteRouteWithChildren;
-  "/(unauthorized)/sign-in": typeof unauthorizedSignInRoute;
-  "/(unauthorized)/sign-up": typeof unauthorizedSignUpRoute;
-  "/(default)/": typeof defaultIndexRoute;
-  "/(authorized)/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
-  "/(authorized)/products/new": typeof authorizedProductsNewRoute;
-  "/(default)/products/$id": typeof defaultProductsIdRoute;
-  "/(default)/products": typeof defaultProductsRouteWithChildren;
-  "/(default)/products/_list": typeof defaultProductsListRouteWithChildren;
-  "/(authorized)/chat-rooms/": typeof authorizedChatRoomsIndexRoute;
-  "/(authorized)/my/": typeof authorizedMyIndexRoute;
-  "/(default)/products/_list/": typeof defaultProductsListIndexRoute;
-}
-
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths:
-    | "/"
-    | "/chat-rooms"
-    | "/sign-in"
-    | "/sign-up"
-    | "/chat-rooms/$id"
-    | "/products/new"
-    | "/products/$id"
-    | "/products"
-    | "/chat-rooms/"
-    | "/my"
-    | "/products/";
-  fileRoutesByTo: FileRoutesByTo;
-  to:
-    | "/"
-    | "/sign-in"
-    | "/sign-up"
-    | "/chat-rooms/$id"
-    | "/products/new"
-    | "/products/$id"
-    | "/products"
-    | "/chat-rooms"
-    | "/my";
-  id:
-    | "__root__"
-    | "/(authorized)"
-    | "/(default)"
-    | "/(unauthorized)"
-    | "/(authorized)/chat-rooms"
-    | "/(unauthorized)/sign-in"
-    | "/(unauthorized)/sign-up"
-    | "/(default)/"
-    | "/(authorized)/chat-rooms/$id"
-    | "/(authorized)/products/new"
-    | "/(default)/products/$id"
-    | "/(default)/products"
-    | "/(default)/products/_list"
-    | "/(authorized)/chat-rooms/"
-    | "/(authorized)/my/"
-    | "/(default)/products/_list/";
-  fileRoutesById: FileRoutesById;
-}
-
-export interface RootRouteChildren {
-  authorizedRouteRoute: typeof authorizedRouteRouteWithChildren;
-  defaultRouteRoute: typeof defaultRouteRouteWithChildren;
-  unauthorizedRouteRoute: typeof unauthorizedRouteRouteWithChildren;
-}
-
 const rootRouteChildren: RootRouteChildren = {
   authorizedRouteRoute: authorizedRouteRouteWithChildren,
   defaultRouteRoute: defaultRouteRouteWithChildren,
   unauthorizedRouteRoute: unauthorizedRouteRouteWithChildren,
 };
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>();
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/(authorized)",
-        "/(default)",
-        "/(unauthorized)"
-      ]
-    },
-    "/(authorized)": {
-      "filePath": "(authorized)/route.tsx",
-      "children": [
-        "/(authorized)/chat-rooms",
-        "/(authorized)/products/new",
-        "/(authorized)/my/"
-      ]
-    },
-    "/(default)": {
-      "filePath": "(default)/route.tsx",
-      "children": [
-        "/(default)/",
-        "/(default)/products/$id",
-        "/(default)/products"
-      ]
-    },
-    "/(unauthorized)": {
-      "filePath": "(unauthorized)/route.tsx",
-      "children": [
-        "/(unauthorized)/sign-in",
-        "/(unauthorized)/sign-up"
-      ]
-    },
-    "/(authorized)/chat-rooms": {
-      "filePath": "(authorized)/chat-rooms/route.tsx",
-      "parent": "/(authorized)",
-      "children": [
-        "/(authorized)/chat-rooms/$id",
-        "/(authorized)/chat-rooms/"
-      ]
-    },
-    "/(unauthorized)/sign-in": {
-      "filePath": "(unauthorized)/sign-in.tsx",
-      "parent": "/(unauthorized)"
-    },
-    "/(unauthorized)/sign-up": {
-      "filePath": "(unauthorized)/sign-up.tsx",
-      "parent": "/(unauthorized)"
-    },
-    "/(default)/": {
-      "filePath": "(default)/index.tsx",
-      "parent": "/(default)"
-    },
-    "/(authorized)/chat-rooms/$id": {
-      "filePath": "(authorized)/chat-rooms/$id.tsx",
-      "parent": "/(authorized)/chat-rooms"
-    },
-    "/(authorized)/products/new": {
-      "filePath": "(authorized)/products/new.tsx",
-      "parent": "/(authorized)"
-    },
-    "/(default)/products/$id": {
-      "filePath": "(default)/products/$id.tsx",
-      "parent": "/(default)"
-    },
-    "/(default)/products": {
-      "filePath": "(default)/products",
-      "parent": "/(default)",
-      "children": [
-        "/(default)/products/_list"
-      ]
-    },
-    "/(default)/products/_list": {
-      "filePath": "(default)/products/_list.tsx",
-      "parent": "/(default)/products",
-      "children": [
-        "/(default)/products/_list/"
-      ]
-    },
-    "/(authorized)/chat-rooms/": {
-      "filePath": "(authorized)/chat-rooms/index.tsx",
-      "parent": "/(authorized)/chat-rooms"
-    },
-    "/(authorized)/my/": {
-      "filePath": "(authorized)/my/index.tsx",
-      "parent": "/(authorized)"
-    },
-    "/(default)/products/_list/": {
-      "filePath": "(default)/products/_list.index.tsx",
-      "parent": "/(default)/products/_list"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

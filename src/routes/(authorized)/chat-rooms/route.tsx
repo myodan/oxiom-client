@@ -9,6 +9,7 @@ export const Route = createFileRoute("/(authorized)/chat-rooms")({
 	loader: ({ context: { queryClient, currentUser } }) => {
 		queryClient.ensureQueryData(chatRoomsQueryOptions(currentUser.id));
 	},
+	pendingComponent: () => null,
 	component: RouteComponent,
 });
 

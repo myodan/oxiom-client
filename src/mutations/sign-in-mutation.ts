@@ -12,7 +12,7 @@ export function useSignInMutation() {
 	const search = Route.useSearch();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
-	const { setAccessToken } = useTokenStore();
+	const setAccessToken = useTokenStore((state) => state.setAccessToken);
 
 	return useMutation({
 		mutationKey: ["sign-in"],

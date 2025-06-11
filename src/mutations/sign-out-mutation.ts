@@ -8,7 +8,7 @@ import { useTokenStore } from "~/stores/token-store";
 export const useSignOutMutation = () => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
-	const { setAccessToken } = useTokenStore();
+	const setAccessToken = useTokenStore((state) => state.setAccessToken);
 
 	return useMutation({
 		mutationKey: ["sign-out"],

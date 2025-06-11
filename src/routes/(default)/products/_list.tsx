@@ -50,8 +50,8 @@ function RouteComponent() {
 							onClick={() =>
 								navigate({
 									to: "/products",
-									search: (search) => ({
-										...search,
+									search: (prev) => ({
+										...prev,
 										categoryId: undefined,
 									}),
 								})
