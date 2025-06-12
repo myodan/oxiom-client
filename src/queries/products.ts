@@ -14,7 +14,7 @@ export function productsInfiniteQueryOptions(
 			fetcher
 				.get<Page<ProductSummary>>("products", {
 					searchParams: {
-						size: 30,
+						size: 36,
 						page: pageParam,
 						sort: "id,desc",
 						...(categoryId && { categoryId }),

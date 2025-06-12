@@ -1,7 +1,7 @@
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
-import ky from "ky";
+import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import { Combobox } from "~/components/ui/combobox";
@@ -17,12 +17,8 @@ import {
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { CATEGORIES } from "~/constants/categories";
-import { fetcher } from "~/lib/fetcher";
+import { useCreateProductMutation } from "~/mutations/create-product-mutation";
 import { ProductFormSchema } from "~/schemas/forms/product";
-import {
-	type PreSignedUrl,
-	PreSignedUrlSchema,
-} from "~/schemas/pre-signed-url";
 
 export const Route = createFileRoute("/(authorized)/products/new")({
 	component: RouteComponent,
@@ -42,27 +38,10 @@ function RouteComponent() {
 		},
 	});
 
-	const handleSubmit = form.handleSubmit(async (data) => {
-		const uploadedImageUrls = await Promise.all(
-			data.images.map(async (file) => {
-				const preSignedUrl = await fetcher
-					.post<PreSignedUrl>("uploads/pre-signed-url")
-					.then(async (response) => {
-						return PreSignedUrlSchema.parse(await response.json());
-					});
+	const { mutate, isPending } = useCreateProductMutation();
 
-				console.log(preSignedUrl.url);
-
-				await ky.put(preSignedUrl.url, {
-					body: file,
-				});
-
-				return `https://r2.myodan.me/${preSignedUrl.key}`;
-			}),
-		);
-
-		console.log(data);
-		console.log(uploadedImageUrls);
+	const handleSubmit = form.handleSubmit((values) => {
+		mutate(values);
 	});
 
 	return (
@@ -103,7 +82,7 @@ function RouteComponent() {
 							<FormControl>
 								<Input
 									type="file"
-									accept=".gif, .jpeg, .png, .webp"
+									accept=".gif, .jpeg, .jpg, .png, .webp"
 									multiple
 									onChange={(event) =>
 										field.onChange(Array.from(event.target.files ?? []))
@@ -178,7 +157,9 @@ function RouteComponent() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">등록</Button>
+				<Button type="submit" disabled={isPending}>
+					{isPending ? <Loader2Icon className="animate-spin" /> : "등록"}
+				</Button>
 				<DevTool control={form.control} />
 			</form>
 		</Form>

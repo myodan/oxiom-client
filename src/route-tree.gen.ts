@@ -197,11 +197,11 @@ export interface RootRouteChildren {
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    "/(authorized)": {
-      id: "/(authorized)";
+    "/(unauthorized)": {
+      id: "/(unauthorized)";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof authorizedRouteRouteImport;
+      preLoaderRoute: typeof unauthorizedRouteRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/(default)": {
@@ -211,33 +211,19 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof defaultRouteRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    "/(unauthorized)": {
-      id: "/(unauthorized)";
+    "/(authorized)": {
+      id: "/(authorized)";
       path: "/";
       fullPath: "/";
-      preLoaderRoute: typeof unauthorizedRouteRouteImport;
+      preLoaderRoute: typeof authorizedRouteRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    "/(authorized)/chat-rooms": {
-      id: "/(authorized)/chat-rooms";
-      path: "/chat-rooms";
-      fullPath: "/chat-rooms";
-      preLoaderRoute: typeof authorizedChatRoomsRouteRouteImport;
-      parentRoute: typeof authorizedRouteRoute;
-    };
-    "/(unauthorized)/sign-in": {
-      id: "/(unauthorized)/sign-in";
-      path: "/sign-in";
-      fullPath: "/sign-in";
-      preLoaderRoute: typeof unauthorizedSignInRouteImport;
-      parentRoute: typeof unauthorizedRouteRoute;
-    };
-    "/(unauthorized)/sign-up": {
-      id: "/(unauthorized)/sign-up";
-      path: "/sign-up";
-      fullPath: "/sign-up";
-      preLoaderRoute: typeof unauthorizedSignUpRouteImport;
-      parentRoute: typeof unauthorizedRouteRoute;
+    "/(default)/products": {
+      id: "/(default)/products";
+      path: "/products";
+      fullPath: "/products";
+      preLoaderRoute: typeof defaultProductsRouteImport;
+      parentRoute: typeof defaultRouteRoute;
     };
     "/(default)/": {
       id: "/(default)/";
@@ -246,33 +232,33 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof defaultIndexRouteImport;
       parentRoute: typeof defaultRouteRoute;
     };
-    "/(authorized)/chat-rooms/$id": {
-      id: "/(authorized)/chat-rooms/$id";
-      path: "/$id";
-      fullPath: "/chat-rooms/$id";
-      preLoaderRoute: typeof authorizedChatRoomsIdRouteImport;
-      parentRoute: typeof authorizedChatRoomsRouteRoute;
+    "/(unauthorized)/sign-up": {
+      id: "/(unauthorized)/sign-up";
+      path: "/sign-up";
+      fullPath: "/sign-up";
+      preLoaderRoute: typeof unauthorizedSignUpRouteImport;
+      parentRoute: typeof unauthorizedRouteRoute;
     };
-    "/(authorized)/products/new": {
-      id: "/(authorized)/products/new";
-      path: "/products/new";
-      fullPath: "/products/new";
-      preLoaderRoute: typeof authorizedProductsNewRouteImport;
+    "/(unauthorized)/sign-in": {
+      id: "/(unauthorized)/sign-in";
+      path: "/sign-in";
+      fullPath: "/sign-in";
+      preLoaderRoute: typeof unauthorizedSignInRouteImport;
+      parentRoute: typeof unauthorizedRouteRoute;
+    };
+    "/(authorized)/chat-rooms": {
+      id: "/(authorized)/chat-rooms";
+      path: "/chat-rooms";
+      fullPath: "/chat-rooms";
+      preLoaderRoute: typeof authorizedChatRoomsRouteRouteImport;
       parentRoute: typeof authorizedRouteRoute;
     };
-    "/(default)/products/$id": {
-      id: "/(default)/products/$id";
-      path: "/products/$id";
-      fullPath: "/products/$id";
-      preLoaderRoute: typeof defaultProductsIdRouteImport;
-      parentRoute: typeof defaultRouteRoute;
-    };
-    "/(default)/products/_list": {
-      id: "/(default)/products/_list";
-      path: "/products";
-      fullPath: "/products";
-      preLoaderRoute: typeof defaultProductsListRouteImport;
-      parentRoute: typeof defaultProductsRoute;
+    "/(authorized)/my/": {
+      id: "/(authorized)/my/";
+      path: "/my";
+      fullPath: "/my";
+      preLoaderRoute: typeof authorizedMyIndexRouteImport;
+      parentRoute: typeof authorizedRouteRoute;
     };
     "/(authorized)/chat-rooms/": {
       id: "/(authorized)/chat-rooms/";
@@ -281,12 +267,33 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof authorizedChatRoomsIndexRouteImport;
       parentRoute: typeof authorizedChatRoomsRouteRoute;
     };
-    "/(authorized)/my/": {
-      id: "/(authorized)/my/";
-      path: "/my";
-      fullPath: "/my";
-      preLoaderRoute: typeof authorizedMyIndexRouteImport;
+    "/(default)/products/_list": {
+      id: "/(default)/products/_list";
+      path: "/products";
+      fullPath: "/products";
+      preLoaderRoute: typeof defaultProductsListRouteImport;
+      parentRoute: typeof defaultProductsRoute;
+    };
+    "/(default)/products/$id": {
+      id: "/(default)/products/$id";
+      path: "/products/$id";
+      fullPath: "/products/$id";
+      preLoaderRoute: typeof defaultProductsIdRouteImport;
+      parentRoute: typeof defaultRouteRoute;
+    };
+    "/(authorized)/products/new": {
+      id: "/(authorized)/products/new";
+      path: "/products/new";
+      fullPath: "/products/new";
+      preLoaderRoute: typeof authorizedProductsNewRouteImport;
       parentRoute: typeof authorizedRouteRoute;
+    };
+    "/(authorized)/chat-rooms/$id": {
+      id: "/(authorized)/chat-rooms/$id";
+      path: "/$id";
+      fullPath: "/chat-rooms/$id";
+      preLoaderRoute: typeof authorizedChatRoomsIdRouteImport;
+      parentRoute: typeof authorizedChatRoomsRouteRoute;
     };
     "/(default)/products/_list/": {
       id: "/(default)/products/_list/";

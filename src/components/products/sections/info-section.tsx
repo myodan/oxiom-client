@@ -18,7 +18,11 @@ export function InfoSection({ product }: InfoSectionProps) {
 					{product.images.map((image) => (
 						<CarouselItem key={image.id} className="flex">
 							<img
-								src={image.url}
+								src={
+									image.objectKey.startsWith("http")
+										? image.objectKey
+										: `${import.meta.env.PUBLIC_S3_URL}/${image.objectKey}`
+								}
 								alt="Product Preview"
 								className="aspect-square grow rounded-lg object-cover"
 							/>

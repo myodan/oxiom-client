@@ -56,10 +56,15 @@ export const Combobox: FC<ComboboxProps> = ({
 							{options.map((option) => (
 								<CommandItem
 									key={option.value}
-									value={option.value}
-									onSelect={(currentValue) => {
+									value={option.label}
+									onSelect={(selectedLabel) => {
+										const selectedOption = options.find(
+											(option) => option.label === selectedLabel,
+										);
 										onChange?.(
-											currentValue !== value ? currentValue : undefined,
+											selectedOption?.value !== value
+												? selectedOption?.value
+												: undefined,
 										);
 										setOpen(false);
 									}}

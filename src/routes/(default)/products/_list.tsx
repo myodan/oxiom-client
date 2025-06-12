@@ -29,11 +29,11 @@ function RouteComponent() {
 	const { categoryId } = Route.useSearch();
 
 	return (
-		<div className="flex gap-4">
-			<aside className="flex basis-1/4 flex-col gap-6">
+		<div className="grid grid-cols-4 gap-4">
+			<aside className="col-span-1 flex flex-col gap-4">
 				<ProductSearch />
 			</aside>
-			<main className="flex basis-3/4 flex-col gap-4">
+			<main className="col-span-3 flex flex-col gap-4">
 				<div className="flex flex-col gap-4">
 					<div className="flex items-center justify-between gap-4">
 						<h1 className="font-bold font-serif text-2xl">상품 목록</h1>
