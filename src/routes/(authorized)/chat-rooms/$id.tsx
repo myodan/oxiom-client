@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { SendIcon, UserIcon } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -16,9 +16,9 @@ import {
 import { Input } from "~/components/ui/input";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { cn } from "~/lib/utils";
-import { chatMessagesQueryOptions } from "~/queries/chat-messages";
-import { chatRoomQueryOptions } from "~/queries/chat-room";
-import { chatRoomsQueryOptions } from "~/queries/chat-rooms";
+import { chatMessagesQueryOptions } from "~/queries/chat-messages-query";
+import { chatRoomQueryOptions } from "~/queries/chat-room-query";
+import { chatRoomsQueryOptions } from "~/queries/chat-rooms-query";
 import type { ChatMessage } from "~/schemas/chat-message";
 import { ChatMessageFormSchema } from "~/schemas/forms/chat-message";
 import { useStompClientStore } from "~/stores/stomp-client-store";
@@ -42,6 +42,8 @@ function RouteComponent() {
 	if (!chatRoom || !chatMessages) {
 		throw notFound();
 	}
+
+	const scrollRef = useRef<HTMLDivElement>(null);
 
 	const { currentUser } = Route.useRouteContext();
 
@@ -82,14 +84,22 @@ function RouteComponent() {
 	);
 
 	useEffect(() => {
-		const stompSub = stompClient.subscribe(`/sub/chat-rooms/${id}`, (message) =>
-			handleMessage(JSON.parse(message.body)),
+		const stompSubscription = stompClient.subscribe(
+			`/sub/chat-rooms/${id}`,
+			(message) => handleMessage(JSON.parse(message.body)),
 		);
 
 		return () => {
-			stompSub.unsubscribe();
+			stompSubscription.unsubscribe();
 		};
 	}, [id, stompClient, handleMessage]);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		if (scrollRef.current) {
+			scrollRef.current.scrollIntoView({ block: "end" });
+		}
+	}, [chatMessages.content.length]);
 
 	const form = useForm({
 		resolver: zodResolver(ChatMessageFormSchema),
@@ -105,6 +115,7 @@ function RouteComponent() {
 				content: data.content,
 			}),
 		});
+
 		form.reset();
 	});
 
@@ -122,7 +133,7 @@ function RouteComponent() {
 				</div>
 			</div>
 			<ScrollArea className="grow overflow-y-scroll">
-				<div className="flex flex-col gap-2 p-4">
+				<div ref={scrollRef} className="flex flex-col gap-2 p-4">
 					{chatMessages.content
 						.slice()
 						.reverse()

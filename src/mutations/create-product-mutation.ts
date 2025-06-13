@@ -32,7 +32,7 @@ export const useCreateProductMutation = () => {
 				}),
 			);
 
-			const response = await fetcher.post<Product>("products", {
+			return fetcher.post<Product>("products", {
 				json: {
 					...data,
 					thumbnailUrl: "https://placehold.co/600x400",
@@ -45,15 +45,15 @@ export const useCreateProductMutation = () => {
 					},
 				},
 			});
-
+		},
+		onSuccess: async (response) => {
 			const product = await response.json();
-			toast.success("상품이 성공적으로 등록되었습니다");
+			toast.success("상품이 성공적으로 등록되었습니다.");
 			navigate({ to: "/products/$id", params: { id: product.id.toString() } });
 		},
 		onError: (error) => {
-			toast.error("상품 생성 중 오류가 발생했습니다", {
-				description: error.message,
-			});
+			console.error(error);
+			toast.error("상품 등록 중 오류가 발생했습니다.");
 		},
 	});
 };

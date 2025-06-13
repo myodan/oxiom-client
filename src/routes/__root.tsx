@@ -4,7 +4,7 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { z } from "zod/v4";
 import { useStompClientSync } from "~/hooks/use-stomp-client-sync";
-import { currentUserQueryOptions } from "~/queries/current-user";
+import { currentUserQueryOptions } from "~/queries/current-user-query";
 
 type RootRouteContext = {
 	queryClient: QueryClient;

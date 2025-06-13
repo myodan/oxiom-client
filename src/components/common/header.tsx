@@ -5,7 +5,7 @@ import { ThemeSelect } from "~/components/common/theme-select";
 import { UserMenu } from "~/components/common/user-menu";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
-import { currentUserQueryOptions } from "~/queries/current-user";
+import { currentUserQueryOptions } from "~/queries/current-user-query";
 
 export function Header() {
 	const { data: currentUser } = useSuspenseQuery(currentUserQueryOptions());

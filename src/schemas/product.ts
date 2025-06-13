@@ -15,7 +15,7 @@ export const ProductSchema = z.object({
 	currentPrice: z.number().nonnegative(),
 	endDate: z.iso.datetime(),
 	category: CategorySchema,
-	createdBy: UserSchema.nullable(),
+	createdBy: UserSchema,
 	createdDate: z.iso.datetime(),
 });
 

@@ -2,7 +2,7 @@ import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { PromotionBanner } from "~/components/landing/promotion-banner";
 import { Porduct } from "~/components/products/product";
-import { productsInfiniteQueryOptions } from "~/queries/products";
+import { productsInfiniteQueryOptions } from "~/queries/products-query";
 
 export const Route = createFileRoute("/(default)/")({
 	loader: ({ context: { queryClient } }) => {

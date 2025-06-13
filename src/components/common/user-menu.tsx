@@ -16,7 +16,7 @@ import {
 	DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { useSignOutMutation } from "~/mutations/sign-out-mutation";
-import { currentUserQueryOptions } from "~/queries/current-user";
+import { currentUserQueryOptions } from "~/queries/current-user-query";
 
 export function UserMenu() {
 	const navigate = useNavigate();

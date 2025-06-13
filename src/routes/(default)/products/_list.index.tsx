@@ -4,7 +4,7 @@ import { Loader2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Porduct } from "~/components/products/product";
-import { productsInfiniteQueryOptions } from "~/queries/products";
+import { productsInfiniteQueryOptions } from "~/queries/products-query";
 
 export const Route = createFileRoute("/(default)/products/_list/")({
 	pendingComponent: () => null,

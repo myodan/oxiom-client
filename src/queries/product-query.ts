@@ -1,9 +1,10 @@
+import { queryOptions } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { fetcher } from "~/lib/fetcher";
 import { type Product, ProductSchema } from "~/schemas/product";
 
 export function productQueryOptions(id: number) {
-	return {
+	return queryOptions({
 		queryKey: ["products", id],
 		queryFn: () =>
 			fetcher
@@ -19,5 +20,5 @@ export function productQueryOptions(id: number) {
 					throw error;
 				}),
 		staleTime: 1000 * 60 * 10,
-	};
+	});
 }

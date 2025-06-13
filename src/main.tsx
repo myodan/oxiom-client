@@ -20,6 +20,7 @@ const router = createRouter({
 	defaultPreload: "intent",
 	defaultStructuralSharing: true,
 	defaultPreloadStaleTime: 0,
+	scrollRestoration: true,
 });
 
 router.subscribe("onBeforeLoad", ({ fromLocation, hrefChanged }) => {

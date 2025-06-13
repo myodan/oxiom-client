@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { fetcher } from "~/lib/fetcher";
-import { currentUserQueryOptions } from "~/queries/current-user";
+import { currentUserQueryOptions } from "~/queries/current-user-query";
 import { Route } from "~/routes/(unauthorized)/sign-in";
 import type { SignInForm } from "~/schemas/forms/sign-in";
 import type { Token } from "~/schemas/token";
@@ -16,11 +16,13 @@ export function useSignInMutation() {
 
 	return useMutation({
 		mutationKey: ["sign-in"],
-		mutationFn: async (data: SignInForm) => {
-			const response = await fetcher.post<Token>("auth/token", {
+		mutationFn: (data: SignInForm) => {
+			return fetcher.post<Token>("auth/token", {
 				json: data,
 				credentials: "include",
 			});
+		},
+		onSuccess: async (response) => {
 			const { accessToken } = await response.json();
 			setAccessToken(accessToken);
 			await queryClient.refetchQueries({
@@ -29,7 +31,8 @@ export function useSignInMutation() {
 			toast.success("성공적으로 로그인되었습니다.");
 			navigate({ to: search.redirect || "/" });
 		},
-		onError: () => {
+		onError: (error) => {
+			console.error(error);
 			toast.error("로그인 중 오류가 발생했습니다.");
 		},
 	});

@@ -10,19 +10,17 @@ export const useSignUpMutation = () => {
 
 	return useMutation({
 		mutationKey: ["sign-up"],
-		mutationFn: async (data: SignUpForm) => {
-			const response = await fetcher.post<User>("users", {
+		mutationFn: (data: SignUpForm) => {
+			return fetcher.post<User>("users", {
 				json: data,
 			});
-
-			if (!response.ok) {
-				throw new Error("회원가입 실패");
-			}
-
+		},
+		onSuccess: () => {
 			toast.success("성공적으로 회원가입되었습니다.");
 			navigate({ to: "/sign-in" });
 		},
-		onError: () => {
+		onError: (error) => {
+			console.error(error);
 			toast.error("회원가입 중 오류가 발생했습니다.");
 		},
 	});

@@ -3,7 +3,7 @@ import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 import { UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { chatRoomsQueryOptions } from "~/queries/chat-rooms";
+import { chatRoomsQueryOptions } from "~/queries/chat-rooms-query";
 
 export const Route = createFileRoute("/(authorized)/chat-rooms")({
 	loader: ({ context: { queryClient, currentUser } }) => {
