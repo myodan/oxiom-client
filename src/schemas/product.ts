@@ -15,6 +15,7 @@ export const ProductSchema = z.object({
 	currentPrice: z.number().nonnegative(),
 	endDate: z.iso.datetime(),
 	category: CategorySchema,
+	status: z.enum(["OPEN", "CLOSED", "ENDED", "FAILED"]),
 	createdBy: UserSchema,
 	createdDate: z.iso.datetime(),
 });

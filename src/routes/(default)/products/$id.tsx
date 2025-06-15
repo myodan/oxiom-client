@@ -2,6 +2,7 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, notFound, useRouter } from "@tanstack/react-router";
 import { ArrowLeftIcon } from "lucide-react";
 import { useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { DeliverySection } from "~/components/products/sections/delivery-section";
 import { DescriptionSection } from "~/components/products/sections/description-section";
 import { InfoSection } from "~/components/products/sections/info-section";
@@ -30,9 +31,18 @@ function RouteComponent() {
 	}
 
 	const queryClient = useQueryClient();
-	const stompClient = useStompClientStore((state) => state.stompClient);
+	const { stompClient, isConnected } = useStompClientStore(
+		useShallow(({ stompClient, isConnected }) => ({
+			stompClient,
+			isConnected,
+		})),
+	);
 
 	useEffect(() => {
+		if (!isConnected) {
+			return;
+		}
+
 		const stompSubscription = stompClient.subscribe(
 			`/sub/products/${id}`,
 			(message) => {
@@ -52,7 +62,7 @@ function RouteComponent() {
 		return () => {
 			stompSubscription.unsubscribe();
 		};
-	}, [id, stompClient, queryClient]);
+	}, [id, queryClient, stompClient, isConnected]);
 
 	return (
 		<div className="flex flex-col gap-4">

@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
+import { useShallow } from "zustand/react/shallow";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -20,6 +21,7 @@ import { Input } from "~/components/ui/input";
 import { useCreateBidMutation } from "~/mutations/create-bid-mutation";
 import { BidFormSchema } from "~/schemas/forms/bid";
 import type { Product } from "~/schemas/product";
+import { useStompClientStore } from "~/stores/stomp-client-store";
 
 export type InfoSectionProps = {
 	product: Product;
@@ -38,6 +40,11 @@ export function InfoSection({ product }: InfoSectionProps) {
 	});
 
 	const { mutate, isPending } = useCreateBidMutation(product.id);
+	const { isConnected } = useStompClientStore(
+		useShallow(({ isConnected }) => ({
+			isConnected,
+		})),
+	);
 
 	const handleSubmit = form.handleSubmit((data) => {
 		mutate(data);
@@ -65,7 +72,10 @@ export function InfoSection({ product }: InfoSectionProps) {
 			<div className="flex flex-col justify-between gap-4">
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-1">
-						<Badge>{product.category.name}</Badge>
+						<div className="flex gap-2">
+							<Badge>{product.status}</Badge>
+							<Badge>{product.category.name}</Badge>
+						</div>
 						<h1 className="line-clamp-1 font-bold font-serif text-2xl">
 							{product.name}
 						</h1>
@@ -84,16 +94,6 @@ export function InfoSection({ product }: InfoSectionProps) {
 					</div>
 					<div className="grid grid-cols-2 gap-2">
 						<div className="flex flex-col">
-							<p className="text-muted-foreground text-sm">판매자</p>
-							<p className="font-medium">
-								{product.createdBy?.displayName || product.createdBy?.username}
-							</p>
-						</div>
-						<div className="flex flex-col">
-							<p className="text-muted-foreground text-sm">판매자 평점</p>
-							<p className="font-medium">5.0</p>
-						</div>
-						<div className="flex flex-col">
 							<p className="text-muted-foreground text-sm">입찰 시작가</p>
 							<p className="font-medium">
 								{product.initialPrice.toLocaleString()}원
@@ -107,40 +107,45 @@ export function InfoSection({ product }: InfoSectionProps) {
 						</div>
 					</div>
 				</div>
-
-				<Form {...form}>
-					<form
-						onSubmit={handleSubmit}
-						className="flex flex-col gap-2 rounded-md border p-4"
-					>
-						<h3 className="font-semibold">입찰하기</h3>
-						<FormField
-							control={form.control}
-							name="price"
-							render={({ field }) => (
-								<FormItem>
-									<FormControl>
-										<Input
-											{...field}
-											type="number"
-											onChange={(event) =>
-												field.onChange(event.target.valueAsNumber)
-											}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<Button type="submit" disabled={isPending}>
-							{isPending ? (
-								<Loader2Icon className="animate-spin" />
-							) : (
-								"입찰하기"
-							)}
-						</Button>
-					</form>
-				</Form>
+				{product.status === "OPEN" ? (
+					<Form {...form}>
+						<form
+							onSubmit={handleSubmit}
+							className="flex flex-col gap-2 rounded-md border p-4"
+						>
+							<h3 className="font-semibold">입찰하기</h3>
+							<FormField
+								control={form.control}
+								name="price"
+								render={({ field }) => (
+									<FormItem>
+										<FormControl>
+											<Input
+												{...field}
+												type="number"
+												onChange={(event) =>
+													field.onChange(event.target.valueAsNumber)
+												}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<Button type="submit" disabled={isPending || !isConnected}>
+								{isPending ? (
+									<Loader2Icon className="animate-spin" />
+								) : (
+									"입찰하기"
+								)}
+							</Button>
+						</form>
+					</Form>
+				) : (
+					<div className="flex flex-col gap-2 rounded-md border p-4">
+						경매가 종료된 상품입니다.
+					</div>
+				)}
 			</div>
 		</div>
 	);

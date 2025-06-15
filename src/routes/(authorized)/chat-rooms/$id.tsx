@@ -4,6 +4,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { SendIcon, UserIcon } from "lucide-react";
 import { useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useShallow } from "zustand/react/shallow";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import {
@@ -51,7 +52,12 @@ function RouteComponent() {
 		chatRoom.user1.id === currentUser.id ? chatRoom.user2 : chatRoom.user1;
 
 	const queryClient = useQueryClient();
-	const stompClient = useStompClientStore((state) => state.stompClient);
+	const { stompClient, isConnected } = useStompClientStore(
+		useShallow(({ stompClient, isConnected }) => ({
+			stompClient,
+			isConnected,
+		})),
+	);
 
 	const handleMessage = useCallback(
 		(chatMessage: ChatMessage) => {
@@ -84,6 +90,10 @@ function RouteComponent() {
 	);
 
 	useEffect(() => {
+		if (!isConnected) {
+			return;
+		}
+
 		const stompSubscription = stompClient.subscribe(
 			`/sub/chat-rooms/${id}`,
 			(message) => handleMessage(JSON.parse(message.body)),
@@ -92,7 +102,7 @@ function RouteComponent() {
 		return () => {
 			stompSubscription.unsubscribe();
 		};
-	}, [id, stompClient, handleMessage]);
+	}, [id, stompClient, isConnected, handleMessage]);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
