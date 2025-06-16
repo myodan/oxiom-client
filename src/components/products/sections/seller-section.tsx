@@ -10,7 +10,7 @@ export type SellerSectionProps = {
 export const SellerSection: FC<SellerSectionProps> = ({ seller }) => {
 	return (
 		<div className="flex flex-col gap-4 rounded-lg border p-4">
-			<h3 className="font-semibold font-serif text-lg">판매자 정보</h3>
+			<h3 className="font-semibold text-lg">판매자 정보</h3>
 			<Avatar>
 				<AvatarImage src={seller.avatarUrl || ""} />
 				<AvatarFallback>

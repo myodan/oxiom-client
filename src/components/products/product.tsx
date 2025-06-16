@@ -19,9 +19,7 @@ export function Porduct({ product }: ProductsProps) {
 					/>
 				</div>
 				<div className="flex flex-col gap-2 border-t px-3 py-2">
-					<h1 className="line-clamp-1 font-bold font-serif text-lg">
-						{product.name}
-					</h1>
+					<h1 className="line-clamp-1 font-bold text-lg">{product.name}</h1>
 					<div className="hidden basis-[2.5rem] flex-col md:flex">
 						<p className="line-clamp-2 text-muted-foreground text-sm">
 							{product.description}

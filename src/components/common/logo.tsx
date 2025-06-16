@@ -7,7 +7,7 @@ export function Logo({ className, ...rest }: LogoProps) {
 	return (
 		<Link
 			to="/"
-			className={cn("select-none font-black font-serif text-2xl", className)}
+			className={cn("select-none font-black text-2xl text-primary", className)}
 			{...rest}
 		>
 			Oxiom

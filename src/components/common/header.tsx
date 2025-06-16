@@ -18,7 +18,7 @@ export function Header() {
 					<li>
 						<Link
 							to="/products"
-							className="font-serif text-foreground/75 hover:text-foreground [&.active]:font-bold [&.active]:text-foreground"
+							className="text-foreground/75 hover:text-foreground [&.active]:font-bold [&.active]:text-foreground"
 						>
 							Products
 						</Link>
@@ -29,9 +29,7 @@ export function Header() {
 						<UserMenu />
 					) : (
 						<Link to="/sign-in">
-							<Button variant="ghost" className="font-serif">
-								로그인
-							</Button>
+							<Button variant="ghost">로그인</Button>
 						</Link>
 					)}
 					<Separator orientation="vertical" />

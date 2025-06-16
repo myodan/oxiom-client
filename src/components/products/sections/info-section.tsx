@@ -76,9 +76,7 @@ export function InfoSection({ product }: InfoSectionProps) {
 							<Badge>{product.status}</Badge>
 							<Badge>{product.category.name}</Badge>
 						</div>
-						<h1 className="line-clamp-1 font-bold font-serif text-2xl">
-							{product.name}
-						</h1>
+						<h1 className="line-clamp-1 font-bold text-2xl">{product.name}</h1>
 					</div>
 					<div className="flex flex-col">
 						<p className="text-gray-400 text-sm">현재 입찰가</p>
