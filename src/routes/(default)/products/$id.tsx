@@ -15,7 +15,7 @@ import { useStompClientStore } from "~/stores/stomp-client-store";
 
 export const Route = createFileRoute("/(default)/products/$id")({
 	loader: ({ context: { queryClient }, params: { id } }) => {
-		queryClient.ensureQueryData(productQueryOptions(+id));
+		queryClient.prefetchQuery(productQueryOptions(+id));
 	},
 	pendingComponent: () => null,
 	component: RouteComponent,

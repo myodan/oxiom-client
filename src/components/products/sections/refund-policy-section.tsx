@@ -1,7 +1,7 @@
 export function RefundPolicySecion() {
 	return (
 		<div className="flex flex-col gap-4 rounded-lg border p-4">
-			<h3 className="font-semibold font-serif text-lg">교환/환불 정책</h3>
+			<h3 className="font-semibold text-lg">교환/환불 정책</h3>
 			<p>
 				OXIOM은 구매자의 만족을 최우선으로 생각합니다. 하지만 경매 특성 상
 				특별한 교환/환불 정책이 적용됩니다.

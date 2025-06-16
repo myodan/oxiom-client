@@ -5,7 +5,7 @@ import { type User, UserSchema } from "~/schemas/user";
 
 export function currentUserQueryOptions() {
 	return queryOptions({
-		queryKey: ["auth", "current-user"],
+		queryKey: ["current-user"],
 		retry: 0,
 		staleTime: 360000,
 		queryFn: () =>

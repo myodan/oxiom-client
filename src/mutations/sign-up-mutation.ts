@@ -17,7 +17,7 @@ export const useSignUpMutation = () => {
 		},
 		onSuccess: () => {
 			toast.success("성공적으로 회원가입되었습니다.");
-			navigate({ to: "/sign-in" });
+			navigate({ to: "/sign-in", replace: true });
 		},
 		onError: (error) => {
 			console.error(error);

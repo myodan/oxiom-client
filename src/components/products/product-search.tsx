@@ -34,7 +34,7 @@ export function ProductSearch() {
 	return (
 		<form className="flex flex-col gap-4">
 			<div className="flex items-center justify-between gap-2">
-				<h2 className="font-semibold font-serif text-xl">검색</h2>
+				<h2 className="font-semibold text-xl">검색</h2>
 				<Button
 					type="reset"
 					variant="link"
@@ -58,7 +58,7 @@ export function ProductSearch() {
 						}
 					}}
 				/>
-				<h2 className="font-semibold font-serif text-lg">카테고리</h2>
+				<h2 className="font-semibold text-lg">카테고리</h2>
 				<RadioGroup
 					value={search.categoryId?.toString() || ""}
 					onValueChange={(value) => updateSearchParams("categoryId", +value)}

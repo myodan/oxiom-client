@@ -23,7 +23,7 @@ export const useSignOutMutation = () => {
 			await queryClient.refetchQueries({
 				queryKey: currentUserQueryOptions().queryKey,
 			});
-			navigate({ to: "/" });
+			navigate({ to: "/", replace: true });
 		},
 		onError: (error) => {
 			console.error(error);

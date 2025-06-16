@@ -1,4 +1,3 @@
-import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
@@ -90,6 +89,18 @@ function RouteComponent() {
 								/>
 							</FormControl>
 							<FormMessage />
+							{field.value.length !== 0 && (
+								<div className="grid grid-cols-6 gap-2">
+									{field.value.map((file) => (
+										<img
+											key={file.name}
+											src={URL.createObjectURL(file)}
+											alt={file.name}
+											className="aspect-square rounded-md border object-cover"
+										/>
+									))}
+								</div>
+							)}
 						</FormItem>
 					)}
 				/>
@@ -100,7 +111,13 @@ function RouteComponent() {
 						<FormItem>
 							<FormLabel>시작가</FormLabel>
 							<FormControl>
-								<Input type="number" {...field} />
+								<Input
+									type="number"
+									{...field}
+									onChange={(event) =>
+										field.onChange(event.target.valueAsNumber)
+									}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -113,7 +130,13 @@ function RouteComponent() {
 						<FormItem>
 							<FormLabel>입찰 단위</FormLabel>
 							<FormControl>
-								<Input type="number" {...field} />
+								<Input
+									type="number"
+									{...field}
+									onChange={(event) =>
+										field.onChange(event.target.valueAsNumber)
+									}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -160,7 +183,6 @@ function RouteComponent() {
 				<Button type="submit" disabled={isPending}>
 					{isPending ? <Loader2Icon className="animate-spin" /> : "등록"}
 				</Button>
-				<DevTool control={form.control} />
 			</form>
 		</Form>
 	);

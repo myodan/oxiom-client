@@ -26,8 +26,8 @@ import { useStompClientStore } from "~/stores/stomp-client-store";
 
 export const Route = createFileRoute("/(authorized)/chat-rooms/$id")({
 	loader: ({ context: { queryClient }, params: { id } }) => {
-		queryClient.ensureQueryData(chatRoomQueryOptions(+id));
-		queryClient.ensureQueryData(chatMessagesQueryOptions(+id));
+		queryClient.prefetchQuery(chatRoomQueryOptions(+id));
+		queryClient.prefetchQuery(chatMessagesQueryOptions(+id));
 	},
 	pendingComponent: () => null,
 	component: RouteComponent,
@@ -132,10 +132,10 @@ function RouteComponent() {
 	return (
 		<div className="flex min-h-0 grow flex-col rounded-md border">
 			<div className="flex items-center justify-center gap-2 border-b p-4">
-				<Avatar>
+				<Avatar className="rounded-full border">
 					<AvatarImage src={targetUser.avatarUrl || ""} />
 					<AvatarFallback>
-						<UserIcon className="size-4 fill-secondary-foreground" />
+						<UserIcon className="size-4" />
 					</AvatarFallback>
 				</Avatar>
 				<div className="flex flex-col">

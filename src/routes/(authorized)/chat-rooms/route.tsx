@@ -7,7 +7,7 @@ import { chatRoomsQueryOptions } from "~/queries/chat-rooms-query";
 
 export const Route = createFileRoute("/(authorized)/chat-rooms")({
 	loader: ({ context: { queryClient, currentUser } }) => {
-		queryClient.ensureQueryData(chatRoomsQueryOptions(currentUser.id));
+		queryClient.prefetchQuery(chatRoomsQueryOptions(currentUser.id));
 	},
 	pendingComponent: () => null,
 	component: RouteComponent,
@@ -29,7 +29,7 @@ function RouteComponent() {
 
 	return (
 		<div className="flex h-0 grow gap-4">
-			<aside className="flex basis-1/4 flex-col gap-6">
+			<aside className="flex shrink-0 basis-1/4 flex-col gap-6">
 				<ScrollArea className="flex flex-1 flex-col gap-2 overflow-y-scroll rounded-md border p-2">
 					{chatRooms.content.map((chatRoom) => {
 						const user =
@@ -45,10 +45,10 @@ function RouteComponent() {
 								className="flex cursor-pointer gap-2 rounded-md hover:bg-accent [&.active]:bg-accent"
 							>
 								<div className="flex items-center gap-2 p-2">
-									<Avatar>
+									<Avatar className="rounded-full border">
 										<AvatarImage src={user.avatarUrl || ""} />
 										<AvatarFallback>
-											<UserIcon className="size-4 fill-secondary-foreground" />
+											<UserIcon className="size-4" />
 										</AvatarFallback>
 									</Avatar>
 									<div className="flex flex-col">

@@ -18,7 +18,7 @@ function RouteComponent() {
 		<div className="flex flex-col gap-8">
 			<PromotionBanner />
 			<div className="flex flex-col gap-4">
-				<h1 className="font-bold font-serif text-2xl">최근 등록 상품</h1>
+				<h1 className="font-bold text-2xl">최근 등록 상품</h1>
 				<ul className="grid grid-cols-4 gap-4">
 					{data.pages.map((page) =>
 						page?.content.map((product) => (

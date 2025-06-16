@@ -29,7 +29,7 @@ export function useSignInMutation() {
 				queryKey: currentUserQueryOptions().queryKey,
 			});
 			toast.success("성공적으로 로그인되었습니다.");
-			navigate({ to: search.redirect || "/" });
+			navigate({ to: search.redirect || "/", replace: true });
 		},
 		onError: (error) => {
 			console.error(error);

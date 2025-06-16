@@ -39,6 +39,5 @@ export function productsInfiniteQueryOptions(
 			const nextPage = lastPage.page.number + 1;
 			return nextPage < lastPage.page.totalPages ? nextPage : undefined;
 		},
-		staleTime: 1000 * 60 * 10,
 	});
 }

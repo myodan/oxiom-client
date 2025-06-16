@@ -29,14 +29,14 @@ export function UserMenu() {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className="rounded-full border">
-				<Avatar className="cursor-pointer">
+			<DropdownMenuTrigger asChild>
+				<Avatar className="cursor-pointer border">
 					<AvatarImage
 						src={currentUser.avatarUrl ?? undefined}
 						alt="사용자 프로필 이미지"
 					/>
 					<AvatarFallback>
-						<UserIcon className="size-4 fill-secondary-foreground" />
+						<UserIcon className="size-4" />
 					</AvatarFallback>
 				</Avatar>
 			</DropdownMenuTrigger>
@@ -50,7 +50,7 @@ export function UserMenu() {
 					</span>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem onClick={() => navigate({ to: "/my" })}>
+				<DropdownMenuItem onClick={() => navigate({ to: "/my/profile" })}>
 					<UserCog2Icon /> 내 정보
 				</DropdownMenuItem>
 				<DropdownMenuItem onClick={() => navigate({ to: "/chat-rooms" })}>

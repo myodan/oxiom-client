@@ -17,12 +17,15 @@ import { Route as authorizedRouteRouteImport } from "./routes/(authorized)/route
 import { Route as defaultIndexRouteImport } from "./routes/(default)/index";
 import { Route as unauthorizedSignUpRouteImport } from "./routes/(unauthorized)/sign-up";
 import { Route as unauthorizedSignInRouteImport } from "./routes/(unauthorized)/sign-in";
+import { Route as authorizedMyRouteRouteImport } from "./routes/(authorized)/my/route";
 import { Route as authorizedChatRoomsRouteRouteImport } from "./routes/(authorized)/chat-rooms/route";
-import { Route as authorizedMyIndexRouteImport } from "./routes/(authorized)/my/index";
 import { Route as authorizedChatRoomsIndexRouteImport } from "./routes/(authorized)/chat-rooms/index";
 import { Route as defaultProductsListRouteImport } from "./routes/(default)/products/_list";
 import { Route as defaultProductsIdRouteImport } from "./routes/(default)/products/$id";
 import { Route as authorizedProductsNewRouteImport } from "./routes/(authorized)/products/new";
+import { Route as authorizedMyProfileRouteImport } from "./routes/(authorized)/my/profile";
+import { Route as authorizedMyProductsRouteImport } from "./routes/(authorized)/my/products";
+import { Route as authorizedMyBidsRouteImport } from "./routes/(authorized)/my/bids";
 import { Route as authorizedChatRoomsIdRouteImport } from "./routes/(authorized)/chat-rooms/$id";
 import { Route as defaultProductsListIndexRouteImport } from "./routes/(default)/products/_list.index";
 
@@ -60,17 +63,17 @@ const unauthorizedSignInRoute = unauthorizedSignInRouteImport.update({
   path: "/sign-in",
   getParentRoute: () => unauthorizedRouteRoute,
 } as any);
+const authorizedMyRouteRoute = authorizedMyRouteRouteImport.update({
+  id: "/my",
+  path: "/my",
+  getParentRoute: () => authorizedRouteRoute,
+} as any);
 const authorizedChatRoomsRouteRoute =
   authorizedChatRoomsRouteRouteImport.update({
     id: "/chat-rooms",
     path: "/chat-rooms",
     getParentRoute: () => authorizedRouteRoute,
   } as any);
-const authorizedMyIndexRoute = authorizedMyIndexRouteImport.update({
-  id: "/my/",
-  path: "/my/",
-  getParentRoute: () => authorizedRouteRoute,
-} as any);
 const authorizedChatRoomsIndexRoute =
   authorizedChatRoomsIndexRouteImport.update({
     id: "/",
@@ -91,6 +94,21 @@ const authorizedProductsNewRoute = authorizedProductsNewRouteImport.update({
   path: "/products/new",
   getParentRoute: () => authorizedRouteRoute,
 } as any);
+const authorizedMyProfileRoute = authorizedMyProfileRouteImport.update({
+  id: "/profile",
+  path: "/profile",
+  getParentRoute: () => authorizedMyRouteRoute,
+} as any);
+const authorizedMyProductsRoute = authorizedMyProductsRouteImport.update({
+  id: "/products",
+  path: "/products",
+  getParentRoute: () => authorizedMyRouteRoute,
+} as any);
+const authorizedMyBidsRoute = authorizedMyBidsRouteImport.update({
+  id: "/bids",
+  path: "/bids",
+  getParentRoute: () => authorizedMyRouteRoute,
+} as any);
 const authorizedChatRoomsIdRoute = authorizedChatRoomsIdRouteImport.update({
   id: "/$id",
   path: "/$id",
@@ -106,26 +124,32 @@ const defaultProductsListIndexRoute =
 export interface FileRoutesByFullPath {
   "/": typeof defaultIndexRoute;
   "/chat-rooms": typeof authorizedChatRoomsRouteRouteWithChildren;
+  "/my": typeof authorizedMyRouteRouteWithChildren;
   "/sign-in": typeof unauthorizedSignInRoute;
   "/sign-up": typeof unauthorizedSignUpRoute;
   "/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
+  "/my/bids": typeof authorizedMyBidsRoute;
+  "/my/products": typeof authorizedMyProductsRoute;
+  "/my/profile": typeof authorizedMyProfileRoute;
   "/products/new": typeof authorizedProductsNewRoute;
   "/products/$id": typeof defaultProductsIdRoute;
   "/products": typeof defaultProductsListRouteWithChildren;
   "/chat-rooms/": typeof authorizedChatRoomsIndexRoute;
-  "/my": typeof authorizedMyIndexRoute;
   "/products/": typeof defaultProductsListIndexRoute;
 }
 export interface FileRoutesByTo {
   "/": typeof defaultIndexRoute;
+  "/my": typeof authorizedMyRouteRouteWithChildren;
   "/sign-in": typeof unauthorizedSignInRoute;
   "/sign-up": typeof unauthorizedSignUpRoute;
   "/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
+  "/my/bids": typeof authorizedMyBidsRoute;
+  "/my/products": typeof authorizedMyProductsRoute;
+  "/my/profile": typeof authorizedMyProfileRoute;
   "/products/new": typeof authorizedProductsNewRoute;
   "/products/$id": typeof defaultProductsIdRoute;
   "/products": typeof defaultProductsListIndexRoute;
   "/chat-rooms": typeof authorizedChatRoomsIndexRoute;
-  "/my": typeof authorizedMyIndexRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
@@ -133,16 +157,19 @@ export interface FileRoutesById {
   "/(default)": typeof defaultRouteRouteWithChildren;
   "/(unauthorized)": typeof unauthorizedRouteRouteWithChildren;
   "/(authorized)/chat-rooms": typeof authorizedChatRoomsRouteRouteWithChildren;
+  "/(authorized)/my": typeof authorizedMyRouteRouteWithChildren;
   "/(unauthorized)/sign-in": typeof unauthorizedSignInRoute;
   "/(unauthorized)/sign-up": typeof unauthorizedSignUpRoute;
   "/(default)/": typeof defaultIndexRoute;
   "/(authorized)/chat-rooms/$id": typeof authorizedChatRoomsIdRoute;
+  "/(authorized)/my/bids": typeof authorizedMyBidsRoute;
+  "/(authorized)/my/products": typeof authorizedMyProductsRoute;
+  "/(authorized)/my/profile": typeof authorizedMyProfileRoute;
   "/(authorized)/products/new": typeof authorizedProductsNewRoute;
   "/(default)/products/$id": typeof defaultProductsIdRoute;
   "/(default)/products": typeof defaultProductsRouteWithChildren;
   "/(default)/products/_list": typeof defaultProductsListRouteWithChildren;
   "/(authorized)/chat-rooms/": typeof authorizedChatRoomsIndexRoute;
-  "/(authorized)/my/": typeof authorizedMyIndexRoute;
   "/(default)/products/_list/": typeof defaultProductsListIndexRoute;
 }
 export interface FileRouteTypes {
@@ -150,42 +177,51 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/chat-rooms"
+    | "/my"
     | "/sign-in"
     | "/sign-up"
     | "/chat-rooms/$id"
+    | "/my/bids"
+    | "/my/products"
+    | "/my/profile"
     | "/products/new"
     | "/products/$id"
     | "/products"
     | "/chat-rooms/"
-    | "/my"
     | "/products/";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
+    | "/my"
     | "/sign-in"
     | "/sign-up"
     | "/chat-rooms/$id"
+    | "/my/bids"
+    | "/my/products"
+    | "/my/profile"
     | "/products/new"
     | "/products/$id"
     | "/products"
-    | "/chat-rooms"
-    | "/my";
+    | "/chat-rooms";
   id:
     | "__root__"
     | "/(authorized)"
     | "/(default)"
     | "/(unauthorized)"
     | "/(authorized)/chat-rooms"
+    | "/(authorized)/my"
     | "/(unauthorized)/sign-in"
     | "/(unauthorized)/sign-up"
     | "/(default)/"
     | "/(authorized)/chat-rooms/$id"
+    | "/(authorized)/my/bids"
+    | "/(authorized)/my/products"
+    | "/(authorized)/my/profile"
     | "/(authorized)/products/new"
     | "/(default)/products/$id"
     | "/(default)/products"
     | "/(default)/products/_list"
     | "/(authorized)/chat-rooms/"
-    | "/(authorized)/my/"
     | "/(default)/products/_list/";
   fileRoutesById: FileRoutesById;
 }
@@ -246,18 +282,18 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof unauthorizedSignInRouteImport;
       parentRoute: typeof unauthorizedRouteRoute;
     };
+    "/(authorized)/my": {
+      id: "/(authorized)/my";
+      path: "/my";
+      fullPath: "/my";
+      preLoaderRoute: typeof authorizedMyRouteRouteImport;
+      parentRoute: typeof authorizedRouteRoute;
+    };
     "/(authorized)/chat-rooms": {
       id: "/(authorized)/chat-rooms";
       path: "/chat-rooms";
       fullPath: "/chat-rooms";
       preLoaderRoute: typeof authorizedChatRoomsRouteRouteImport;
-      parentRoute: typeof authorizedRouteRoute;
-    };
-    "/(authorized)/my/": {
-      id: "/(authorized)/my/";
-      path: "/my";
-      fullPath: "/my";
-      preLoaderRoute: typeof authorizedMyIndexRouteImport;
       parentRoute: typeof authorizedRouteRoute;
     };
     "/(authorized)/chat-rooms/": {
@@ -287,6 +323,27 @@ declare module "@tanstack/react-router" {
       fullPath: "/products/new";
       preLoaderRoute: typeof authorizedProductsNewRouteImport;
       parentRoute: typeof authorizedRouteRoute;
+    };
+    "/(authorized)/my/profile": {
+      id: "/(authorized)/my/profile";
+      path: "/profile";
+      fullPath: "/my/profile";
+      preLoaderRoute: typeof authorizedMyProfileRouteImport;
+      parentRoute: typeof authorizedMyRouteRoute;
+    };
+    "/(authorized)/my/products": {
+      id: "/(authorized)/my/products";
+      path: "/products";
+      fullPath: "/my/products";
+      preLoaderRoute: typeof authorizedMyProductsRouteImport;
+      parentRoute: typeof authorizedMyRouteRoute;
+    };
+    "/(authorized)/my/bids": {
+      id: "/(authorized)/my/bids";
+      path: "/bids";
+      fullPath: "/my/bids";
+      preLoaderRoute: typeof authorizedMyBidsRouteImport;
+      parentRoute: typeof authorizedMyRouteRoute;
     };
     "/(authorized)/chat-rooms/$id": {
       id: "/(authorized)/chat-rooms/$id";
@@ -321,16 +378,31 @@ const authorizedChatRoomsRouteRouteWithChildren =
     authorizedChatRoomsRouteRouteChildren,
   );
 
+interface authorizedMyRouteRouteChildren {
+  authorizedMyBidsRoute: typeof authorizedMyBidsRoute;
+  authorizedMyProductsRoute: typeof authorizedMyProductsRoute;
+  authorizedMyProfileRoute: typeof authorizedMyProfileRoute;
+}
+
+const authorizedMyRouteRouteChildren: authorizedMyRouteRouteChildren = {
+  authorizedMyBidsRoute: authorizedMyBidsRoute,
+  authorizedMyProductsRoute: authorizedMyProductsRoute,
+  authorizedMyProfileRoute: authorizedMyProfileRoute,
+};
+
+const authorizedMyRouteRouteWithChildren =
+  authorizedMyRouteRoute._addFileChildren(authorizedMyRouteRouteChildren);
+
 interface authorizedRouteRouteChildren {
   authorizedChatRoomsRouteRoute: typeof authorizedChatRoomsRouteRouteWithChildren;
+  authorizedMyRouteRoute: typeof authorizedMyRouteRouteWithChildren;
   authorizedProductsNewRoute: typeof authorizedProductsNewRoute;
-  authorizedMyIndexRoute: typeof authorizedMyIndexRoute;
 }
 
 const authorizedRouteRouteChildren: authorizedRouteRouteChildren = {
   authorizedChatRoomsRouteRoute: authorizedChatRoomsRouteRouteWithChildren,
+  authorizedMyRouteRoute: authorizedMyRouteRouteWithChildren,
   authorizedProductsNewRoute: authorizedProductsNewRoute,
-  authorizedMyIndexRoute: authorizedMyIndexRoute,
 };
 
 const authorizedRouteRouteWithChildren = authorizedRouteRoute._addFileChildren(

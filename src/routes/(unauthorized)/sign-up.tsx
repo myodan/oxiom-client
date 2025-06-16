@@ -47,7 +47,7 @@ function RouteComponent() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle className="font-serif text-xl">회원가입</CardTitle>
+				<CardTitle className="text-xl">회원가입</CardTitle>
 				<CardDescription>Oxiom에 회원가입하세요!</CardDescription>
 			</CardHeader>
 			<CardContent>

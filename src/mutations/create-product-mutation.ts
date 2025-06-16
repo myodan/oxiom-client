@@ -35,7 +35,6 @@ export const useCreateProductMutation = () => {
 			return fetcher.post<Product>("products", {
 				json: {
 					...data,
-					thumbnailUrl: "https://placehold.co/600x400",
 					images: uploadedObjectKeys.map((objectKey, index) => ({
 						order: index,
 						objectKey,
@@ -49,7 +48,11 @@ export const useCreateProductMutation = () => {
 		onSuccess: async (response) => {
 			const product = await response.json();
 			toast.success("상품이 성공적으로 등록되었습니다.");
-			navigate({ to: "/products/$id", params: { id: product.id.toString() } });
+			navigate({
+				to: "/products/$id",
+				params: { id: product.id.toString() },
+				replace: true,
+			});
 		},
 		onError: (error) => {
 			console.error(error);
