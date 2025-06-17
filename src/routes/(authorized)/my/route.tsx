@@ -21,7 +21,7 @@ function RouteComponent() {
 					))}
 				</nav>
 			</aside>
-			<main className="flex basis-3/4 flex-col gap-4 overflow-x-scroll">
+			<main className="flex basis-3/4 flex-col gap-4 overflow-x-auto">
 				<Outlet />
 			</main>
 		</div>
