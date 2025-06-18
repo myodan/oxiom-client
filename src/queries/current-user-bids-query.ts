@@ -1,15 +1,15 @@
 import { queryOptions } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { fetcher } from "~/lib/fetcher";
-import { type UserBid, UserBidSchema } from "~/schemas/bid";
-import { type Page, PageSchema } from "~/schemas/page";
+import { UserBidSchema } from "~/schemas/bid";
+import { PageSchema } from "~/schemas/page";
 
-export const currentUserBidsQueryOptions = (page: number) => {
+export const currentUserBidsQueryOptions = (page: number = 0) => {
 	return queryOptions({
 		queryKey: ["current-user", "bids", { page }],
 		queryFn: async () =>
 			fetcher
-				.get<Page<UserBid>>("users/me/bids", {
+				.get("users/me/bids", {
 					searchParams: [["page", page.toString()]],
 				})
 				.then(async (response) => {

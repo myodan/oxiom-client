@@ -13,11 +13,11 @@ export function PromotionBanner() {
 		<Carousel opts={{ loop: true }} plugins={[Autoplay({ delay: 10000 })]}>
 			<CarouselContent>
 				{PROMOTIONS.map((promotion, i) => (
-					<CarouselItem key={promotion} className="flex h-72">
+					<CarouselItem className="flex h-72" key={promotion}>
 						<img
-							src={promotion}
 							alt={`Promotion banner item ${i + 1}`}
 							className="w-full rounded-md object-cover"
+							src={promotion}
 						/>
 					</CarouselItem>
 				))}

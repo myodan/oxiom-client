@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod/v4";
@@ -53,7 +53,7 @@ function RouteComponent() {
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
-					<form onSubmit={onSubmit} className="flex flex-col gap-8">
+					<form className="flex flex-col gap-8" onSubmit={onSubmit}>
 						<FormField
 							control={form.control}
 							name="username"
@@ -61,7 +61,7 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>사용자 이름</FormLabel>
 									<FormControl>
-										<Input type="text" placeholder="username" {...field} />
+										<Input placeholder="username" type="text" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -74,7 +74,7 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>암호</FormLabel>
 									<FormControl>
-										<Input type="password" placeholder="password" {...field} />
+										<Input placeholder="password" type="password" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -91,8 +91,8 @@ function RouteComponent() {
 							<div className="text-center text-sm">
 								아직 계정이 없으신가요?{" "}
 								<Link
-									to="/sign-up"
 									className="text-primary underline-offset-4 hover:underline "
+									to="/sign-up"
 								>
 									회원가입
 								</Link>

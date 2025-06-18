@@ -1,6 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { formatDuration, intervalToDuration, isBefore } from "date-fns";
+import { ko } from "date-fns/locale";
 import { Loader2Icon } from "lucide-react";
+import { type FC, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useInterval } from "usehooks-ts";
 import { z } from "zod/v4";
 import { useShallow } from "zustand/react/shallow";
 import { Badge } from "~/components/ui/badge";
@@ -27,7 +31,7 @@ export type InfoSectionProps = {
 	product: Product;
 };
 
-export function InfoSection({ product }: InfoSectionProps) {
+export const InfoSection: FC<InfoSectionProps> = ({ product }) => {
 	const form = useForm({
 		resolver: zodResolver(
 			BidFormSchema.extend({
@@ -50,26 +54,57 @@ export function InfoSection({ product }: InfoSectionProps) {
 		mutate(data);
 	});
 
+	const getRemainingTimeMessage = useCallback(() => {
+		const nowDate = new Date();
+		const productEndDate = new Date(product.endDate);
+
+		if (isBefore(productEndDate, nowDate)) {
+			if (!product.highestBidder) {
+				return "입찰자가 없어 패찰되었습니다.";
+			}
+
+			return `${product.highestBidder?.displayName || product.highestBidder?.username}님 낙찰`;
+		}
+
+		return formatDuration(
+			intervalToDuration({
+				start: nowDate,
+				end: productEndDate,
+			}),
+			{ locale: ko },
+		);
+	}, [product]);
+
+	const [durationMessage, setDurationMessage] = useState(
+		getRemainingTimeMessage(),
+	);
+
+	useInterval(() => {
+		setDurationMessage(getRemainingTimeMessage());
+	}, 1000);
+
 	return (
-		<div className="grid grid-cols-2 gap-4">
-			<Carousel>
-				<CarouselContent>
-					{product.images.map((image) => (
-						<CarouselItem key={image.id} className="flex">
-							<img
-								src={
-									image.objectKey.startsWith("http")
-										? image.objectKey
-										: `${import.meta.env.PUBLIC_S3_URL}/${image.objectKey}`
-								}
-								alt="Product Preview"
-								className="aspect-square grow rounded-lg object-cover"
-							/>
-						</CarouselItem>
-					))}
-				</CarouselContent>
-			</Carousel>
-			<div className="flex flex-col justify-between gap-4">
+		<div className="flex flex-col gap-4 md:flex-row">
+			<div className="flex basis-1/2 gap-4">
+				<Carousel className="grow">
+					<CarouselContent>
+						{product.images.map((image) => (
+							<CarouselItem className="flex" key={image.id}>
+								<img
+									alt="Product Preview"
+									className="aspect-square grow rounded-lg object-cover"
+									src={
+										image.objectKey.startsWith("http")
+											? image.objectKey
+											: `${import.meta.env.PUBLIC_S3_URL}/${image.objectKey}`
+									}
+								/>
+							</CarouselItem>
+						))}
+					</CarouselContent>
+				</Carousel>
+			</div>
+			<div className="flex basis-1/2 flex-col justify-between gap-4">
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-1">
 						<div className="flex gap-2">
@@ -88,7 +123,7 @@ export function InfoSection({ product }: InfoSectionProps) {
 						<p className="text-muted-foreground text-sm">
 							경매 종료까지 남은 시간
 						</p>
-						<p className="font-medium text-lg">{product.endDate.toString()}</p>
+						<p className="font-medium text-lg">{durationMessage}</p>
 					</div>
 					<div className="grid grid-cols-2 gap-2">
 						<div className="flex flex-col">
@@ -108,8 +143,8 @@ export function InfoSection({ product }: InfoSectionProps) {
 				{product.status === "OPEN" ? (
 					<Form {...form}>
 						<form
-							onSubmit={handleSubmit}
 							className="flex flex-col gap-2 rounded-md border p-4"
+							onSubmit={handleSubmit}
 						>
 							<h3 className="font-semibold">입찰하기</h3>
 							<FormField
@@ -120,17 +155,17 @@ export function InfoSection({ product }: InfoSectionProps) {
 										<FormControl>
 											<Input
 												{...field}
-												type="number"
 												onChange={(event) =>
 													field.onChange(event.target.valueAsNumber)
 												}
+												type="number"
 											/>
 										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
-							<Button type="submit" disabled={isPending || !isConnected}>
+							<Button disabled={isPending || !isConnected} type="submit">
 								{isPending ? (
 									<Loader2Icon className="animate-spin" />
 								) : (
@@ -147,4 +182,4 @@ export function InfoSection({ product }: InfoSectionProps) {
 			</div>
 		</div>
 	);
-}
+};

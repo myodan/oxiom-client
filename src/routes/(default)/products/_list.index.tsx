@@ -31,7 +31,7 @@ function RouteComponent() {
 				)),
 			)}
 			{hasNextPage && (
-				<div ref={ref} className="col-span-full flex justify-center p-4">
+				<div className="col-span-full flex justify-center p-4" ref={ref}>
 					<Loader2Icon className="animate-spin" />
 				</div>
 			)}

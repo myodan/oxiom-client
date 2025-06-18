@@ -104,7 +104,7 @@ function RouteComponent() {
 		};
 	}, [id, stompClient, isConnected, handleMessage]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	// biome-ignore lint/correctness/useExhaustiveDependencies: 스크롤 바가 항상 마지막 메시지로 스크롤되도록 하기 위해
 	useEffect(() => {
 		if (scrollRef.current) {
 			scrollRef.current.scrollIntoView({ block: "end" });
@@ -143,7 +143,7 @@ function RouteComponent() {
 				</div>
 			</div>
 			<ScrollArea className="grow overflow-y-scroll">
-				<div ref={scrollRef} className="flex flex-col gap-2 p-4">
+				<div className="flex flex-col gap-2 p-4" ref={scrollRef}>
 					{chatMessages.content
 						.slice()
 						.reverse()
@@ -151,7 +151,7 @@ function RouteComponent() {
 							const isCurrentUser = currentUser.id === chatMessage.senderId;
 
 							return (
-								<div key={chatMessage.id} className="flex flex-col gap-1">
+								<div className="flex flex-col gap-1" key={chatMessage.id}>
 									<div
 										className={cn(
 											"rounded-md p-2",
@@ -189,7 +189,7 @@ function RouteComponent() {
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" size="icon">
+					<Button size="icon" type="submit">
 						<SendIcon />
 					</Button>
 				</form>

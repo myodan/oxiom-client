@@ -1,14 +1,16 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, notFound, useRouter } from "@tanstack/react-router";
-import { ArrowLeftIcon } from "lucide-react";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { RouterBackButton } from "~/components/common/router-back-button";
+import { ProductShareButton } from "~/components/products/product-share-button";
+import { BidHistorySection } from "~/components/products/sections/bid-history-section";
 import { DeliverySection } from "~/components/products/sections/delivery-section";
 import { DescriptionSection } from "~/components/products/sections/description-section";
 import { InfoSection } from "~/components/products/sections/info-section";
 import { RefundPolicySecion } from "~/components/products/sections/refund-policy-section";
 import { SellerSection } from "~/components/products/sections/seller-section";
-import { Button } from "~/components/ui/button";
+import { productBidsQueryOptions } from "~/queries/product-bids-query";
 import { productQueryOptions } from "~/queries/product-query";
 import { BidSchema } from "~/schemas/bid";
 import { useStompClientStore } from "~/stores/stomp-client-store";
@@ -16,15 +18,16 @@ import { useStompClientStore } from "~/stores/stomp-client-store";
 export const Route = createFileRoute("/(default)/products/$id")({
 	loader: ({ context: { queryClient }, params: { id } }) => {
 		queryClient.prefetchQuery(productQueryOptions(+id));
+		queryClient.prefetchQuery(productBidsQueryOptions(+id));
 	},
 	pendingComponent: () => null,
 	component: RouteComponent,
 });
 
 function RouteComponent() {
-	const router = useRouter();
 	const { id } = Route.useParams();
 	const { data: product } = useSuspenseQuery(productQueryOptions(+id));
+	const { data: productBids } = useSuspenseQuery(productBidsQueryOptions(+id));
 
 	if (!product) {
 		throw notFound();
@@ -66,15 +69,14 @@ function RouteComponent() {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<div>
-				<Button variant="outline" onClick={() => router.history.back()}>
-					<ArrowLeftIcon />
-					돌아가기
-				</Button>
+			<div className="flex items-center justify-between gap-2">
+				<RouterBackButton />
+				<ProductShareButton productId={+id} />
 			</div>
 			<InfoSection product={product} />
 			<DescriptionSection description={product.description} />
 			<SellerSection seller={product.createdBy} />
+			<BidHistorySection bids={productBids?.content} />
 			<DeliverySection />
 			<RefundPolicySecion />
 		</div>

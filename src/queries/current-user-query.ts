@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { fetcher } from "~/lib/fetcher";
-import { type User, UserSchema } from "~/schemas/user";
+import { UserSchema } from "~/schemas/user";
 
 export function currentUserQueryOptions() {
 	return queryOptions({
@@ -10,7 +10,7 @@ export function currentUserQueryOptions() {
 		staleTime: 360000,
 		queryFn: () =>
 			fetcher
-				.get<User | null>("users/me")
+				.get("users/me")
 				.then(async (response) => {
 					const data = await response.json();
 					return UserSchema.nullable().parse(data);

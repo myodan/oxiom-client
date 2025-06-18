@@ -45,7 +45,7 @@ function RouteComponent() {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={handleSubmit} className="flex flex-col gap-4">
+			<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 				<FormField
 					control={form.control}
 					name="name"
@@ -80,12 +80,12 @@ function RouteComponent() {
 							<FormLabel>이미지</FormLabel>
 							<FormControl>
 								<Input
-									type="file"
 									accept=".gif, .jpeg, .jpg, .png, .webp"
 									multiple
 									onChange={(event) =>
 										field.onChange(Array.from(event.target.files ?? []))
 									}
+									type="file"
 								/>
 							</FormControl>
 							<FormMessage />
@@ -93,10 +93,10 @@ function RouteComponent() {
 								<div className="grid grid-cols-6 gap-2">
 									{field.value.map((file) => (
 										<img
-											key={file.name}
-											src={URL.createObjectURL(file)}
 											alt={file.name}
 											className="aspect-square rounded-md border object-cover"
+											key={file.name}
+											src={URL.createObjectURL(file)}
 										/>
 									))}
 								</div>
@@ -150,8 +150,8 @@ function RouteComponent() {
 							<FormLabel>경매 종료일</FormLabel>
 							<FormControl>
 								<DatePicker
-									value={field.value ? new Date(field.value) : undefined}
 									onChange={(value) => field.onChange(value?.toISOString())}
+									value={field.value ? new Date(field.value) : undefined}
 								/>
 							</FormControl>
 							<FormMessage />
@@ -166,7 +166,6 @@ function RouteComponent() {
 							<FormLabel>카테고리</FormLabel>
 							<FormControl>
 								<Combobox
-									value={field.value?.toString()}
 									onChange={(value) => field.onChange(value && +value)}
 									options={CATEGORIES.map((category) => ({
 										value: category.id.toString(),
@@ -174,13 +173,14 @@ function RouteComponent() {
 									}))}
 									placeholder="카테고리를 선택하세요"
 									searchPlaceholder="카테고리 검색"
+									value={field.value?.toString()}
 								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" disabled={isPending}>
+				<Button disabled={isPending} type="submit">
 					{isPending ? <Loader2Icon className="animate-spin" /> : "등록"}
 				</Button>
 			</form>

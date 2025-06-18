@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod/v4";
 import { Card, CardContent } from "~/components/ui/card";
 import {
@@ -55,8 +55,8 @@ function RouteComponent() {
 										<TableCell>{product.status}</TableCell>
 										<TableCell>
 											<Link
-												to="/products/$id"
 												params={{ id: product.id.toString() }}
+												to="/products/$id"
 											>
 												{product.name}
 											</Link>
@@ -83,7 +83,7 @@ function RouteComponent() {
 								))
 							) : (
 								<TableRow>
-									<TableCell colSpan={3} className="text-center">
+									<TableCell className="text-center" colSpan={3}>
 										등록된 상품이 없습니다.
 									</TableCell>
 								</TableRow>

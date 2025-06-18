@@ -1,24 +1,24 @@
 import { queryOptions } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { fetcher } from "~/lib/fetcher";
+import { ProductBidSchema } from "~/schemas/bid";
 import { PageSchema } from "~/schemas/page";
-import { UserProductSchema } from "~/schemas/product";
 
-export const currentUserProductsQueryOptions = (page: number = 0) => {
+export const productBidsQueryOptions = (id: number, page: number = 0) => {
 	return queryOptions({
-		queryKey: ["current-user", "products", { page }],
+		queryKey: ["products", id, "bids", { page }],
 		queryFn: async () =>
 			fetcher
-				.get("users/me/products", {
+				.get(`products/${id}/bids`, {
 					searchParams: [
 						["page", page.toString()],
-						["sort", "lastModifiedDate,desc"],
+						["size", "10"],
 						["sort", "createdDate,desc"],
 					],
 				})
 				.then(async (response) => {
 					const data = await response.json();
-					return PageSchema(UserProductSchema).parse(data);
+					return PageSchema(ProductBidSchema).parse(data);
 				})
 				.catch((error) => {
 					if (error instanceof HTTPError) {

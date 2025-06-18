@@ -1,7 +1,7 @@
 import ky, {
-	HTTPError,
 	type BeforeRequestHook,
 	type BeforeRetryHook,
+	HTTPError,
 } from "ky";
 import { useTokenStore } from "~/stores/token-store";
 

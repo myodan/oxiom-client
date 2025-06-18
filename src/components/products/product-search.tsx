@@ -36,20 +36,18 @@ export function ProductSearch() {
 			<div className="flex items-center justify-between gap-2">
 				<h2 className="font-semibold text-xl">검색</h2>
 				<Button
-					type="reset"
-					variant="link"
-					size="sm"
 					className="text-muted-foreground"
 					onClick={handleReset}
+					size="sm"
+					type="reset"
+					variant="link"
 				>
 					초기화
 				</Button>
 			</div>
 			<div className="flex flex-col gap-4">
 				<Input
-					ref={keywordInputRef}
 					defaultValue={search.keyword}
-					placeholder="검색어를 입력하세요"
 					onKeyDown={(event) => {
 						if (event.key === "Enter") {
 							event.preventDefault();
@@ -57,14 +55,16 @@ export function ProductSearch() {
 							updateSearchParams("keyword", event.currentTarget.value);
 						}
 					}}
+					placeholder="검색어를 입력하세요"
+					ref={keywordInputRef}
 				/>
 				<h2 className="font-semibold text-lg">카테고리</h2>
 				<RadioGroup
-					value={search.categoryId?.toString() || ""}
 					onValueChange={(value) => updateSearchParams("categoryId", +value)}
+					value={search.categoryId?.toString() || ""}
 				>
 					{CATEGORIES.map((category) => (
-						<div key={category.id} className="flex gap-2">
+						<div className="flex gap-2" key={category.id}>
 							<RadioGroupItem
 								id={`category-${category.id}`}
 								value={category.id.toString()}

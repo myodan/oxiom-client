@@ -1,4 +1,6 @@
-export function DeliverySection() {
+import type { FC } from "react";
+
+export const DeliverySection: FC = () => {
 	return (
 		<section className="flex flex-col gap-4 rounded-lg border p-4">
 			<h3 className="font-semibold text-lg">배송 정보</h3>
@@ -34,4 +36,4 @@ export function DeliverySection() {
 			</div>
 		</section>
 	);
-}
+};

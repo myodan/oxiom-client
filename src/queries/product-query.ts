@@ -1,14 +1,14 @@
 import { queryOptions } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { fetcher } from "~/lib/fetcher";
-import { type Product, ProductSchema } from "~/schemas/product";
+import { ProductSchema } from "~/schemas/product";
 
 export function productQueryOptions(id: number) {
 	return queryOptions({
 		queryKey: ["products", id],
 		queryFn: () =>
 			fetcher
-				.get<Product>(`products/${id}`)
+				.get(`products/${id}`)
 				.then(async (response) => {
 					const data = await response.json();
 					return ProductSchema.parse(data);

@@ -1,4 +1,4 @@
-import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { PlusIcon, XIcon } from "lucide-react";
 import { z } from "zod/v4";
 import { ProductSearch } from "~/components/products/product-search";
@@ -38,7 +38,7 @@ function RouteComponent() {
 					<div className="flex items-center justify-between gap-4">
 						<h1 className="font-bold text-2xl">상품 목록</h1>
 						<div className="flex items-center gap-2">
-							<Link to="/products/new" preload={false}>
+							<Link preload={false} to="/products/new">
 								<Button>
 									<PlusIcon /> 새 상품 등록
 								</Button>
@@ -47,6 +47,7 @@ function RouteComponent() {
 					</div>
 					{categoryId && (
 						<Badge
+							className="cursor-pointer"
 							onClick={() =>
 								navigate({
 									to: "/products",
@@ -56,7 +57,6 @@ function RouteComponent() {
 									}),
 								})
 							}
-							className="cursor-pointer"
 						>
 							{CATEGORIES[categoryId - 1].name}
 							<XIcon />

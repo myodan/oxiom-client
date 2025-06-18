@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRightIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import type { ProductSummary } from "~/schemas/product";
+import { Badge } from "../ui/badge";
 
 export type ProductsProps = {
 	product: ProductSummary;
@@ -9,18 +10,25 @@ export type ProductsProps = {
 
 export function Porduct({ product }: ProductsProps) {
 	return (
-		<Link to="/products/$id" params={{ id: product.id.toString() }}>
-			<li className={"flex flex-col overflow-hidden rounded-md border"}>
-				<div className="flex overflow-hidden">
+		<Link params={{ id: product.id.toString() }} to="/products/$id">
+			<li className="flex flex-col overflow-hidden rounded-md border">
+				<div className="relative flex overflow-hidden">
 					<img
+						alt="상품 미리보기"
+						className="aspect-square grow object-cover"
 						src={
 							product.thumbnail.startsWith("http")
 								? product.thumbnail
 								: `${import.meta.env.PUBLIC_S3_URL}/${product.thumbnail}`
 						}
-						alt="상품 미리보기"
-						className="aspect-square grow object-cover"
 					/>
+					<div className="absolute right-0 bottom-0 left-0 flex justify-between p-2">
+						{product.status === "OPEN" ? (
+							<Badge variant="secondary">경매 진행 중</Badge>
+						) : (
+							<Badge variant="destructive">경매 종료 됨</Badge>
+						)}
+					</div>
 				</div>
 				<div className="flex flex-col gap-2 border-t px-3 py-2">
 					<h1 className="line-clamp-1 font-bold text-lg">{product.name}</h1>

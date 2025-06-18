@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -39,10 +39,10 @@ function RouteComponent() {
 
 						return (
 							<Link
-								key={chatRoom.id}
-								to="/chat-rooms/$id"
-								params={{ id: chatRoom.id.toString() }}
 								className="flex cursor-pointer gap-2 rounded-md hover:bg-accent [&.active]:bg-accent"
+								key={chatRoom.id}
+								params={{ id: chatRoom.id.toString() }}
+								to="/chat-rooms/$id"
 							>
 								<div className="flex items-center gap-2 p-2">
 									<Avatar className="rounded-full border">

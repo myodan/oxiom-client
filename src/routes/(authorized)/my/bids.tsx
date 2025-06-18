@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod/v4";
 import { Card, CardContent } from "~/components/ui/card";
 import {
@@ -39,7 +39,7 @@ function RouteComponent() {
 							<TableRow>
 								<TableHead>입찰 상품</TableHead>
 								<TableHead>입찰 금액</TableHead>
-								<TableHead>생성 일시</TableHead>
+								<TableHead>입찰 일시</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -48,15 +48,13 @@ function RouteComponent() {
 									<TableRow key={bid.id}>
 										<TableCell>
 											<Link
-												to="/products/$id"
 												params={{ id: bid.product.id.toString() }}
+												to="/products/$id"
 											>
 												{bid.product.name}
 											</Link>
 										</TableCell>
-										<TableCell className="text-right">
-											{bid.price.toLocaleString()}원
-										</TableCell>
+										<TableCell>{bid.price.toLocaleString()}원</TableCell>
 										<TableCell>
 											{new Date(bid.createdDate).toLocaleString()}
 										</TableCell>
@@ -64,7 +62,7 @@ function RouteComponent() {
 								))
 							) : (
 								<TableRow>
-									<TableCell colSpan={3} className="text-center">
+									<TableCell className="text-center" colSpan={3}>
 										입찰 내역이 없습니다.
 									</TableCell>
 								</TableRow>

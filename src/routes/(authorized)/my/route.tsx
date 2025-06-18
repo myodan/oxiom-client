@@ -1,4 +1,4 @@
-import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { MY_MENU } from "~/constants/my-menu";
 
 export const Route = createFileRoute("/(authorized)/my")({
@@ -12,9 +12,9 @@ function RouteComponent() {
 				<nav className="flex flex-col gap-1">
 					{MY_MENU.map((item) => (
 						<Link
+							className="flex items-center gap-2 rounded-md px-4 py-2 hover:bg-accent [&.active]:bg-accent [&.active]:font-medium"
 							key={item.to}
 							to={item.to}
-							className="flex items-center gap-2 rounded-md px-4 py-2 hover:bg-accent [&.active]:bg-accent [&.active]:font-medium"
 						>
 							{item.label}
 						</Link>

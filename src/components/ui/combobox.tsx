@@ -34,12 +34,12 @@ export const Combobox: FC<ComboboxProps> = ({
 	const [open, setOpen] = useState(false);
 
 	return (
-		<Popover open={open} onOpenChange={setOpen}>
+		<Popover onOpenChange={setOpen} open={open}>
 			<PopoverTrigger asChild>
 				<Button
-					variant="outline"
 					aria-expanded={open}
 					className="justify-between"
+					variant="outline"
 				>
 					{value
 						? options.find((option) => option.value === value)?.label
@@ -47,16 +47,15 @@ export const Combobox: FC<ComboboxProps> = ({
 					<ChevronsUpDown className="opacity-50" />
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="w-auto p-0" align="end">
+			<PopoverContent align="end" className="w-auto p-0">
 				<Command>
-					<CommandInput placeholder={searchPlaceholder} className="h-9" />
+					<CommandInput className="h-9" placeholder={searchPlaceholder} />
 					<CommandList>
 						<CommandEmpty>검색 결과가 없습니다.</CommandEmpty>
 						<CommandGroup>
 							{options.map((option) => (
 								<CommandItem
 									key={option.value}
-									value={option.label}
 									onSelect={(selectedLabel) => {
 										const selectedOption = options.find(
 											(option) => option.label === selectedLabel,
@@ -68,6 +67,7 @@ export const Combobox: FC<ComboboxProps> = ({
 										);
 										setOpen(false);
 									}}
+									value={option.label}
 								>
 									{option.label}
 									<CheckIcon

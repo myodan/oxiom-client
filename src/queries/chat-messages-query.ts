@@ -1,15 +1,15 @@
 import { queryOptions } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { fetcher } from "~/lib/fetcher";
-import { type ChatMessage, ChatMessageSchema } from "~/schemas/chat-message";
-import { type Page, PageSchema } from "~/schemas/page";
+import { ChatMessageSchema } from "~/schemas/chat-message";
+import { PageSchema } from "~/schemas/page";
 
 export function chatMessagesQueryOptions(chatRoomId: number) {
 	return queryOptions({
 		queryKey: ["chat-rooms", chatRoomId, "chat-messages"],
 		queryFn: () =>
 			fetcher
-				.get<Page<ChatMessage>>(`chat-rooms/${chatRoomId}/chat-messages`, {
+				.get(`chat-rooms/${chatRoomId}/chat-messages`, {
 					searchParams: {
 						sort: "createdDate,DESC",
 					},

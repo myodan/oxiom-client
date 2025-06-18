@@ -1,8 +1,8 @@
 import { infiniteQueryOptions } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { fetcher } from "~/lib/fetcher";
-import { type Page, PageSchema } from "~/schemas/page";
-import { type ProductSummary, ProductSummarySchema } from "~/schemas/product";
+import { PageSchema } from "~/schemas/page";
+import { ProductSummarySchema } from "~/schemas/product";
 
 export function productsInfiniteQueryOptions(
 	categoryId?: number,
@@ -12,7 +12,7 @@ export function productsInfiniteQueryOptions(
 		queryKey: ["products", { categoryId, keyword }],
 		queryFn: async ({ pageParam }) =>
 			fetcher
-				.get<Page<ProductSummary>>("products", {
+				.get("products", {
 					searchParams: {
 						size: 36,
 						page: pageParam,

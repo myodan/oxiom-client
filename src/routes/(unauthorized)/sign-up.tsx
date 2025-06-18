@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "~/components/ui/button";
@@ -52,7 +52,7 @@ function RouteComponent() {
 			</CardHeader>
 			<CardContent>
 				<Form {...form}>
-					<form onSubmit={onSubmit} className="flex flex-col gap-8">
+					<form className="flex flex-col gap-8" onSubmit={onSubmit}>
 						<FormField
 							control={form.control}
 							name="username"
@@ -60,7 +60,7 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>사용자 이름</FormLabel>
 									<FormControl>
-										<Input type="text" placeholder="username" {...field} />
+										<Input placeholder="username" type="text" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -73,7 +73,7 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>암호</FormLabel>
 									<FormControl>
-										<Input type="password" placeholder="password" {...field} />
+										<Input placeholder="password" type="password" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -86,7 +86,7 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>암호 재확인</FormLabel>
 									<FormControl>
-										<Input type="password" placeholder="*****" {...field} />
+										<Input placeholder="*****" type="password" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -100,8 +100,8 @@ function RouteComponent() {
 									<FormLabel>이메일</FormLabel>
 									<FormControl>
 										<Input
-											type="text"
 											placeholder="example@me.com"
+											type="text"
 											{...field}
 										/>
 									</FormControl>
@@ -116,7 +116,7 @@ function RouteComponent() {
 								<FormItem>
 									<FormLabel>이름</FormLabel>
 									<FormControl>
-										<Input type="text" placeholder="홍길동" {...field} />
+										<Input placeholder="홍길동" type="text" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -133,8 +133,8 @@ function RouteComponent() {
 							<div className="text-center text-sm">
 								이미 계정이 있으신가요?{" "}
 								<Link
-									to="/sign-in"
 									className="text-primary underline underline-offset-4"
+									to="/sign-in"
 								>
 									로그인
 								</Link>

@@ -16,7 +16,7 @@ export const ThemeSelect: FC = () => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="ghost" size="icon">
+				<Button size="icon" variant="ghost">
 					{theme === "light" && <SunIcon />}
 					{theme === "dark" && <MoonIcon />}
 					{theme === "system" && <MonitorIcon />}

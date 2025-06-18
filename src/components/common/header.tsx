@@ -17,8 +17,8 @@ export function Header() {
 				<ul className="flex items-center gap-4">
 					<li>
 						<Link
-							to="/products"
 							className="text-foreground/75 hover:text-foreground [&.active]:font-bold [&.active]:text-foreground"
+							to="/products"
 						>
 							Products
 						</Link>

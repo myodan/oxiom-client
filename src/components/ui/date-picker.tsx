@@ -23,21 +23,21 @@ export const DatePicker: FC<DatePickerProps> = ({
 	const [open, setOpen] = useState(false);
 
 	return (
-		<Popover open={open} onOpenChange={setOpen}>
+		<Popover onOpenChange={setOpen} open={open}>
 			<PopoverTrigger asChild>
-				<Button variant="outline" className="justify-between font-normal">
+				<Button className="justify-between font-normal" variant="outline">
 					{value ? value.toLocaleDateString() : placeholder}
 					<ChevronDownIcon />
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent className="w-auto overflow-hidden p-0" align="end">
+			<PopoverContent align="end" className="w-auto overflow-hidden p-0">
 				<Calendar
 					mode="single"
-					selected={value}
 					onSelect={(date) => {
 						onChange?.(date);
 						setOpen(false);
 					}}
+					selected={value}
 					{...calendarProps}
 				/>
 			</PopoverContent>

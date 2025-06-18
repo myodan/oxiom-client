@@ -32,8 +32,8 @@ export function UserMenu() {
 			<DropdownMenuTrigger asChild>
 				<Avatar className="cursor-pointer border">
 					<AvatarImage
-						src={currentUser.avatarUrl ?? undefined}
 						alt="사용자 프로필 이미지"
+						src={currentUser.avatarUrl ?? undefined}
 					/>
 					<AvatarFallback>
 						<UserIcon className="size-4" />
