@@ -20,7 +20,7 @@ export const Route = createFileRoute("/(authorized)/my/products")({
 		page,
 	}),
 	loader: ({ context: { queryClient }, deps: { page } }) => {
-		queryClient.prefetchQuery(currentUserProductsQueryOptions(page));
+		queryClient.ensureQueryData(currentUserProductsQueryOptions(page));
 	},
 	component: RouteComponent,
 });

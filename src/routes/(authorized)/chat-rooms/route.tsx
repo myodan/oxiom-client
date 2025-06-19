@@ -7,7 +7,7 @@ import { chatRoomsQueryOptions } from "~/queries/chat-rooms-query";
 
 export const Route = createFileRoute("/(authorized)/chat-rooms")({
 	loader: ({ context: { queryClient, currentUser } }) => {
-		queryClient.prefetchQuery(chatRoomsQueryOptions(currentUser.id));
+		queryClient.ensureQueryData(chatRoomsQueryOptions(currentUser.id));
 	},
 	pendingComponent: () => null,
 	component: RouteComponent,

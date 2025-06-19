@@ -20,7 +20,7 @@ export const Route = createFileRoute("/(authorized)/my/bids")({
 		page,
 	}),
 	loader: ({ context: { queryClient }, deps: { page } }) => {
-		queryClient.prefetchQuery(currentUserBidsQueryOptions(page));
+		queryClient.ensureQueryData(currentUserBidsQueryOptions(page));
 	},
 	component: RouteComponent,
 });

@@ -26,8 +26,8 @@ import { useStompClientStore } from "~/stores/stomp-client-store";
 
 export const Route = createFileRoute("/(authorized)/chat-rooms/$id")({
 	loader: ({ context: { queryClient }, params: { id } }) => {
-		queryClient.prefetchQuery(chatRoomQueryOptions(+id));
-		queryClient.prefetchQuery(chatMessagesQueryOptions(+id));
+		queryClient.ensureQueryData(chatRoomQueryOptions(+id));
+		queryClient.ensureQueryData(chatMessagesQueryOptions(+id));
 	},
 	pendingComponent: () => null,
 	component: RouteComponent,

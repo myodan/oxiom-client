@@ -60,7 +60,7 @@ export const InfoSection: FC<InfoSectionProps> = ({ product }) => {
 
 		if (isBefore(productEndDate, nowDate)) {
 			if (!product.highestBidder) {
-				return "입찰자가 없어 패찰되었습니다.";
+				return "입찰자가 없어 유찰되었습니다.";
 			}
 
 			return `${product.highestBidder?.displayName || product.highestBidder?.username}님 낙찰`;
