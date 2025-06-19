@@ -6,6 +6,7 @@ import { UserMenu } from "~/components/common/user-menu";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { currentUserQueryOptions } from "~/queries/current-user-query";
+import { NotificationMenu } from "./notification-menu";
 
 export function Header() {
 	const { data: currentUser } = useSuspenseQuery(currentUserQueryOptions());
@@ -26,7 +27,10 @@ export function Header() {
 				</ul>
 				<div className="flex items-center gap-4">
 					{currentUser ? (
-						<UserMenu />
+						<>
+							<NotificationMenu />
+							<UserMenu />
+						</>
 					) : (
 						<Link to="/sign-in">
 							<Button variant="ghost">로그인</Button>

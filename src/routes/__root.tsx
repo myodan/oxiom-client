@@ -1,4 +1,4 @@
-import type { QueryClient } from "@tanstack/react-query";
+import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
@@ -6,7 +6,9 @@ import { useEffect } from "react";
 import { z } from "zod/v4";
 import { useShallow } from "zustand/react/shallow";
 import { useStompClientSync } from "~/hooks/use-stomp-client-sync";
+import { currentUserNotificationsQueryOptions } from "~/queries/current-user-notifications-query";
 import { currentUserQueryOptions } from "~/queries/current-user-query";
+import { NotificationSchema } from "~/schemas/notification";
 import { useStompClientStore } from "~/stores/stomp-client-store";
 
 type RootRouteContext = {
@@ -28,6 +30,7 @@ export const Route = createRootRouteWithContext<RootRouteContext>()({
 
 function RouteComponent() {
 	const { currentUser } = Route.useRouteContext();
+	const queryClient = useQueryClient();
 	useStompClientSync();
 
 	const { isConnected, stompClient } = useStompClientStore(
@@ -43,16 +46,37 @@ function RouteComponent() {
 		}
 
 		const userNotify = stompClient.subscribe(
-			"/user/notify",
+			`/sub/notify/${currentUser.username}`,
 			(message: unknown) => {
-				console.log("User notification received:", message);
+				const parsedMessage = NotificationSchema.parse(message);
+				queryClient.setQueryData(
+					currentUserNotificationsQueryOptions().queryKey,
+					(prev) => {
+						if (!prev) {
+							return {
+								content: [parsedMessage],
+								page: {
+									size: 1,
+									number: 0,
+									totalElements: 1,
+									totalPages: 1,
+								},
+							};
+						}
+
+						return {
+							...prev,
+							content: [parsedMessage, ...prev.content],
+						};
+					},
+				);
 			},
 		);
 
 		return () => {
 			userNotify.unsubscribe();
 		};
-	}, [isConnected, stompClient, currentUser]);
+	}, [isConnected, stompClient, currentUser, queryClient]);
 
 	return (
 		<>
